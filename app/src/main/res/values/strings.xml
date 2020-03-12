@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name" translatable="false">WeatherAcc</string>
+    <string name="splash_tvFirstLine">Welcome to</string>
+    <string name="splash_tvSecondLine">WEATHER APP</string>
+    <string name="tempUnit">\u00B0C / \u2109</string>
+    <string name="addNewCities1">To add your first location</string>
+    <string name="addNewCities2">" click +"</string>
+</resources>

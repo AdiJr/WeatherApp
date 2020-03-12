@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">WeatherAcc</string>
+    <string name="splash_tvFirstLine">Witaj w aplikacji</string>
+    <string name="splash_tvSecondLine">Pogoda</string>
+</resources>

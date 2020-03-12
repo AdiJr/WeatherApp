@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.weatheracc.ui.fragment.SplashFragment"
+        android:label="splash_fragment"
+        tools:layout="@layout/splash_fragment">
+        <action
+            android:id="@+id/action_splashFragment_to_forecastListFragment"
+            app:destination="@id/forecastListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/forecastListFragment"
+        android:name="com.example.weatheracc.ui.fragment.ForecastListFragment"
+        android:label="forecast_list_fragment"
+        tools:layout="@layout/forecast_list_fragment">
+        <action
+            android:id="@+id/action_forecastListFragment_to_forecastCityFragment"
+            app:destination="@id/forecastCityFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/forecastCityFragment"
+        android:name="com.example.weatheracc.ui.fragment.ForecastCityFragment"
+        android:label="forecast_city_fragment"
+        tools:layout="@layout/forecast_city_fragment" />
+
+</navigation>
