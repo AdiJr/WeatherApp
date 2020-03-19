@@ -37,12 +37,11 @@ class ForecastListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         val button: FloatingActionButton = view?.findViewById(R.id.addFAB)!!
-        button.setOnClickListener(View.OnClickListener {
+        button.setOnClickListener {
             findNavController().navigate(ForecastListFragmentDirections.actionForecastListFragmentToForecastCityFragment())
-        })
+        }
 
         viewModel = ViewModelProviders.of(this).get(ForecastListViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
 }
