@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--kolory dla włączonego Dark Mode-->
-    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimary">#4493ff</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="fontWhite">@android:color/white</color>
