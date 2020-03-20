@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/t_o"
+    android:background="@drawable/splash_background"
     tools:context=".ui.fragment.ForecastListFragment">
 
     <RelativeLayout
@@ -78,7 +78,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:src="@drawable/ic_add_white_24dp"
-        app:backgroundTint="#0D4295"
+        app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:focusable="true" />

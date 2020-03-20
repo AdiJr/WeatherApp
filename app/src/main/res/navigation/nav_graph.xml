@@ -13,8 +13,8 @@
         <action
             android:id="@+id/action_splashFragment_to_forecastListFragment"
             app:destination="@id/forecastListFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
 
     <fragment
@@ -25,13 +25,22 @@
         <action
             android:id="@+id/action_forecastListFragment_to_forecastCityFragment"
             app:destination="@id/forecastCityFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/forecastCityFragment"
         android:name="com.example.weatheracc.ui.fragment.ForecastCityFragment"
         android:label="forecast_city_fragment"
-        tools:layout="@layout/forecast_city_fragment" />
+        tools:layout="@layout/forecast_city_fragment">
+        <action
+            android:id="@+id/action_forecastCityFragment_to_citySearchFragment"
+            app:destination="@id/citySearchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/citySearchFragment"
+        android:name="com.example.weatheracc.ui.fragment.CitySearchFragment"
+        android:label="CitySearchFragment"
+        tools:layout="@layout/city_search_fragment" />
 
 </navigation>

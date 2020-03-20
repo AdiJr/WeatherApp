@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ForecastListFragment : Fragment() {
 
+
     companion object {
         fun newInstance() = ForecastListFragment()
     }
