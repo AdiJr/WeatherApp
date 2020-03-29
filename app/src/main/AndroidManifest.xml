@@ -3,7 +3,6 @@
     package="com.example.weatheracc">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:allowBackup="false"

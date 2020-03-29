@@ -11,36 +11,38 @@
         android:label="splash_fragment"
         tools:layout="@layout/splash_fragment">
         <action
-            android:id="@+id/action_splashFragment_to_forecastListFragment"
-            app:destination="@id/forecastListFragment"
+            android:id="@+id/action_splashFragment_to_HomeFragment"
+            app:destination="@id/HomeFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
     </fragment>
 
     <fragment
-        android:id="@+id/forecastListFragment"
-        android:name="com.example.weatheracc.ui.fragment.ForecastListFragment"
-        android:label="forecast_list_fragment"
-        tools:layout="@layout/forecast_list_fragment">
+        android:id="@+id/HomeFragment"
+        android:name="com.example.weatheracc.ui.fragment.HomeFragment"
+        android:label="home_fragment"
+        tools:layout="@layout/home_fragment">
         <action
-            android:id="@+id/action_forecastListFragment_to_forecastCityFragment"
-            app:destination="@id/forecastCityFragment"
+            android:id="@+id/action_HomeFragment_to_SavedCitiesFragment"
+            app:destination="@id/SavedCitiesFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
-        android:id="@+id/forecastCityFragment"
-        android:name="com.example.weatheracc.ui.fragment.ForecastCityFragment"
-        android:label="forecast_city_fragment"
-        tools:layout="@layout/forecast_city_fragment">
+        android:id="@+id/SavedCitiesFragment"
+        android:name="com.example.weatheracc.ui.fragment.SavedCitiesFragment"
+        android:label="saved_cities_fragment"
+        tools:layout="@layout/cities_saved_fragment">
         <action
-            android:id="@+id/action_forecastCityFragment_to_citySearchFragment"
-            app:destination="@id/citySearchFragment" />
+            android:id="@+id/action_SavedCitiesFragment_to_SearchedCitiesFragment"
+            app:destination="@id/SearchedCitiesFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
-        android:id="@+id/citySearchFragment"
-        android:name="com.example.weatheracc.ui.fragment.CitySearchFragment"
-        android:label="CitySearchFragment"
+        android:id="@+id/SearchedCitiesFragment"
+        android:name="com.example.weatheracc.ui.fragment.SearchedCitiesFragment"
+        android:label="SeatchedCitiesFragment"
         tools:layout="@layout/city_search_fragment" />
 
 </navigation>

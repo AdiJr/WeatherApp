@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/splash_background"
-    tools:context=".ui.fragment.ForecastListFragment">
+    tools:context=".ui.fragment.HomeFragment">
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
@@ -27,8 +27,9 @@
         <ImageView
             android:id="@+id/wave"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_marginTop="290dp"
+            android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:src="@drawable/ic_wave" />
     </RelativeLayout>
@@ -75,12 +76,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:clickable="true"
+        android:focusable="true"
         android:src="@drawable/ic_add_white_24dp"
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:focusable="true" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

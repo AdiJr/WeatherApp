@@ -12,7 +12,7 @@ import com.example.weatheracc.adapters.SearchedCitiesAdapter
 import com.example.weatheracc.models.SearchedCityModel
 import kotlinx.android.synthetic.main.city_search_fragment.view.*
 
-class CitySearchFragment : Fragment() {
+class SearchedCitiesFragment : Fragment() {
 
     private val searchedCitiesAdapter by lazy {
         SearchedCitiesAdapter {
@@ -23,7 +23,7 @@ class CitySearchFragment : Fragment() {
     private val citiesList = mutableListOf(
         SearchedCityModel(
             "1",
-            "Warszawa"
+            "Your current location"
         ),
         SearchedCityModel(
             "2",
@@ -48,10 +48,10 @@ class CitySearchFragment : Fragment() {
     )
 
     companion object {
-        fun newInstance() = CitySearchFragment()
+        fun newInstance() = SearchedCitiesFragment()
     }
 
-    private lateinit var viewModel: CitySearchViewModel
+    private lateinit var viewModel: SearchedCitiesViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +64,7 @@ class CitySearchFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(CitySearchViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(SearchedCitiesViewModel::class.java)
         // TODO: Use the ViewModel
     }
 

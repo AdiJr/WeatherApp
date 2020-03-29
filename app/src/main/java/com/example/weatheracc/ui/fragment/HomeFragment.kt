@@ -9,17 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.weatheracc.R
-import com.example.weatheracc.viewModels.ForecastListViewModel
+import com.example.weatheracc.viewModels.HomeViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ForecastListFragment : Fragment() {
+class HomeFragment : Fragment() {
 
 
     companion object {
-        fun newInstance() = ForecastListFragment()
+        fun newInstance() = HomeFragment()
     }
 
-    private lateinit var viewModel: ForecastListViewModel
+    private lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +31,7 @@ class ForecastListFragment : Fragment() {
                     activity?.finish()
                 }
             })
-        return inflater.inflate(R.layout.forecast_list_fragment, container, false)
+        return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -39,10 +39,10 @@ class ForecastListFragment : Fragment() {
 
         val button: FloatingActionButton = view?.findViewById(R.id.addFAB)!!
         button.setOnClickListener {
-            findNavController().navigate(ForecastListFragmentDirections.actionForecastListFragmentToForecastCityFragment())
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSavedCitiesFragment())
         }
 
-        viewModel = ViewModelProviders.of(this).get(ForecastListViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
     }
 }

@@ -10,9 +10,9 @@ import com.example.weatheracc.R
 import com.example.weatheracc.models.CityModel
 import kotlinx.android.synthetic.main.item_saved_city.view.*
 
-class CitiesAdapter(
+class SavedCitiesAdapter(
     private val listener: (CityModel) -> Unit
-) : ListAdapter<CityModel, CitiesAdapter.CitiesViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<CityModel, SavedCitiesAdapter.CitiesViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         CitiesViewHolder(

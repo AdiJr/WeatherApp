@@ -45,8 +45,15 @@ class SearchedCitiesAdapter(
     class CitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(city: SearchedCityModel, listener: (SearchedCityModel) -> Unit) {
             itemView.apply {
-                tvSearchedCityName.text = city.name
-                setOnClickListener { listener(city) }
+                if (city.id == "1") {
+                    tvSearchedCityName.text = city.name
+                    icon.setBackgroundResource(R.drawable.current_location)
+                    setOnClickListener { listener(city) }
+                } else {
+                    tvSearchedCityName.text = city.name
+                    icon.setBackgroundResource(R.drawable.recent)
+                    setOnClickListener { listener(city) }
+                }
             }
         }
     }
