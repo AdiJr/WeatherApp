@@ -1,7 +1,6 @@
 package com.example.weatheracc.viewModels
 
 import androidx.lifecycle.ViewModel
+import com.example.weatheracc.repository.Repository
 
-class SplashViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
-}
+class SplashViewModel(repository: Repository) : ViewModel()
