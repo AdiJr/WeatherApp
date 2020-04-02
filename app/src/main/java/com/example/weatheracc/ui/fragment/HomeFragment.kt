@@ -5,27 +5,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.weatheracc.R
 import com.example.weatheracc.viewModels.HomeViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import dagger.android.support.DaggerFragment
+import javax.inject.Inject
 
-class HomeFragment : Fragment() {
+class HomeFragment : DaggerFragment() {
 
+    @Inject
+    lateinit var factory: ViewModelProvider.Factory
+    private val viewModel by viewModels<HomeViewModel> { factory }
 
     companion object {
         fun newInstance() = HomeFragment()
     }
 
-    private lateinit var viewModel: HomeViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        requireActivity().onBackPressedDispatcher.addCallback(this,
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     activity?.finish()
@@ -41,8 +45,5 @@ class HomeFragment : Fragment() {
         button.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSavedCitiesFragment())
         }
-
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 }

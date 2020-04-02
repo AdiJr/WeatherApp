@@ -7,13 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatheracc.models.WeatherForecast
 import com.example.weatheracc.repository.Repository
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
-class SavedCitiesViewModel(repository: Repository) : ViewModel() {
+class SavedCitiesViewModel @Inject constructor(repository: Repository) : ViewModel() {
 
     private val tag = "SavedCitiesViewModel"
 
     val weatherList = MutableLiveData<List<WeatherForecast>>()
 
+    //wywołuje się w trakcie tworzenia obiektu
     init {
         repository.getWeatherList()
             .onStart {
