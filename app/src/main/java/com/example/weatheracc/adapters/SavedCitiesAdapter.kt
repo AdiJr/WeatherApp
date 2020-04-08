@@ -7,12 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatheracc.R
-import com.example.weatheracc.models.CityModel
+import com.example.weatheracc.models.WeatherForecast
 import kotlinx.android.synthetic.main.item_saved_city.view.*
 
-class CitiesAdapter(
-    private val listener: (CityModel) -> Unit
-) : ListAdapter<CityModel, CitiesAdapter.CitiesViewHolder>(DIFF_CALLBACK) {
+class SavedCitiesAdapter(
+    private val listener: (WeatherForecast) -> Unit
+) : ListAdapter<WeatherForecast, SavedCitiesAdapter.CitiesViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         CitiesViewHolder(
@@ -27,26 +27,28 @@ class CitiesAdapter(
         holder.bind(getItem(position), listener)
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CityModel>() {
-            override fun areItemsTheSame(oldItem: CityModel, newItem: CityModel): Boolean =
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<WeatherForecast>() {
+            override fun areItemsTheSame(
+                oldItem: WeatherForecast,
+                newItem: WeatherForecast
+            ): Boolean =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: CityModel, newItem: CityModel): Boolean =
+            override fun areContentsTheSame(
+                oldItem: WeatherForecast,
+                newItem: WeatherForecast
+            ): Boolean =
                 oldItem == newItem
         }
     }
 
     class CitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(city: CityModel, listener: (CityModel) -> Unit) {
+        fun bind(city: WeatherForecast, listener: (WeatherForecast) -> Unit) {
             itemView.apply {
-                when (city.status) {
-                    "Sunny" -> setBackgroundResource(R.drawable.hot_background)
-                    "Clouds" -> setBackgroundResource(R.drawable.cloudy_background)
-                    "Clear Sky" -> setBackgroundResource(R.drawable.clear_background)
-                }
+                setBackgroundResource(R.drawable.clear_background)
                 tvCityName.text = city.name
-                tvDate.text = city.date
-                tvTemperature.text = "${city.temperature}"
+                tvDate.text = city.weather.firstOrNull()!!.description
+                tvTemperature.text = "${city.main.temp}"
                 setOnClickListener { listener(city) }
             }
         }
