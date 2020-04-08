@@ -1,7 +1,7 @@
-package com.example.weatheracc.components
+package com.example.weatheracc.di.components
 
 import com.example.weatheracc.WeatherApplication
-import com.example.weatheracc.modules.*
+import com.example.weatheracc.di.modules.*
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
@@ -14,10 +14,11 @@ import javax.inject.Singleton
         DatabaseModule::class,
         RepositoryModule::class,
         ActivityModule::class,
-        FragmentModule::class,
+        FragmentsModule::class,
         ContextModule::class,
         ViewModelFactoryModule::class,
-        ViewModelModule::class
+        ViewModelModule::class,
+        RemoteModule::class
     ]
 )
 

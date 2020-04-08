@@ -1,4 +1,4 @@
-package com.example.weatheracc.modules
+package com.example.weatheracc.di.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

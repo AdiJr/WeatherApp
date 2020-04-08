@@ -11,10 +11,13 @@
         android:label="splash_fragment"
         tools:layout="@layout/splash_fragment">
         <action
-            android:id="@+id/action_splashFragment_to_HomeFragment"
+            android:id="@+id/toHome"
             app:destination="@id/HomeFragment"
             app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out" />
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_graph" />
     </fragment>
 
     <fragment
@@ -23,7 +26,7 @@
         android:label="home_fragment"
         tools:layout="@layout/home_fragment">
         <action
-            android:id="@+id/action_HomeFragment_to_SavedCitiesFragment"
+            android:id="@+id/toSavedCities"
             app:destination="@id/SavedCitiesFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
@@ -34,7 +37,7 @@
         android:label="saved_cities_fragment"
         tools:layout="@layout/cities_saved_fragment">
         <action
-            android:id="@+id/action_SavedCitiesFragment_to_SearchedCitiesFragment"
+            android:id="@+id/toSearchedCities"
             app:destination="@id/SearchedCitiesFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />

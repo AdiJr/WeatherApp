@@ -1,11 +1,11 @@
 package com.example.weatheracc.ui.fragment
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.weatheracc.R
@@ -19,22 +19,15 @@ class SplashFragment : DaggerFragment() {
     lateinit var factory: ViewModelProvider.Factory
     private val viewModel by viewModels<SplashViewModel> { factory }
 
-    companion object {
-        fun newInstance() = SplashFragment()
-    }
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.splash_fragment, container, false)
+        return inflater.inflate(R.layout.splash_fragment, container, false).apply {
+            viewModel.proceed.observe(viewLifecycleOwner, Observer {
+                findNavController().navigate(SplashFragmentDirections.toHome())
+            })
+        }
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        Handler().postDelayed({
-            findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment())
-        }, 5000)
-    }
-
 }

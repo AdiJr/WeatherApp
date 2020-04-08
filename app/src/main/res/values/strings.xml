@@ -2,7 +2,11 @@
     <string name="app_name" translatable="false">WeatherAcc</string>
     <string name="splash_tvFirstLine">Welcome to</string>
     <string name="splash_tvSecondLine">WEATHER APP</string>
-    <string name="tempUnit">\u00B0C / \u2109</string>
+    <string name="tvTempUnit">\u00B0C / \u2109</string>
+    <string name="tempUnits_metric">\u00B0C</string>
+    <string name="tempUnits_imperial">\u2109</string>
     <string name="addNewCities1">To add your first location</string>
     <string name="addNewCities2">" click +"</string>
+    <string name="list_empty">List is empty</string>
+    <string name="enter_city_hint">Enter city</string>
 </resources>

@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.weatheracc.R
 import com.example.weatheracc.adapters.SavedCitiesAdapter
+import com.example.weatheracc.models.Units
 import com.example.weatheracc.viewModels.SavedCitiesViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.cities_saved_fragment.view.*
 import javax.inject.Inject
@@ -29,30 +29,27 @@ class SavedCitiesFragment : DaggerFragment() {
         }
     }
 
-    companion object {
-        fun newInstance() =
-            SavedCitiesFragment()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.cities_saved_fragment, container, false).apply {
-            rootView.rvCity.adapter = citiesAdapter
-            viewModel.weatherList.observe(viewLifecycleOwner, Observer {
-                citiesAdapter.submitList(it)
-            })
+            tempUnitSwitcher.setOnClickListener {
+                viewModel.updateUnits()
+            }
+            rvCity.adapter = citiesAdapter
+            fabAddCity.setOnClickListener {
+                findNavController().navigate(SavedCitiesFragmentDirections.toSearchedCities())
+            }
+
+            with(viewModel) {
+                weatherList.observe(viewLifecycleOwner, Observer {
+                    citiesAdapter.submitList(it)
+                })
+                units.observe(viewLifecycleOwner, Observer {
+                    tempUnitSwitcher.setCurrentText(getString(if (it == Units.METRIC) R.string.tempUnits_metric else R.string.tempUnits_imperial))
+                })
+            }
         }
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val button: FloatingActionButton = view?.findViewById(R.id.addFAB2)!!
-        button.setOnClickListener {
-            findNavController().navigate(SavedCitiesFragmentDirections.actionSavedCitiesFragmentToSearchedCitiesFragment())
-        }
-    }
-
 }

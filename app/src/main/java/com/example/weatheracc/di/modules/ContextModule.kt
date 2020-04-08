@@ -1,4 +1,4 @@
-package com.example.weatheracc.modules
+package com.example.weatheracc.di.modules
 
 import android.content.Context
 import com.example.weatheracc.WeatherApplication

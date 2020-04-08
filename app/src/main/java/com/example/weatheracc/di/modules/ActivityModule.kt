@@ -1,4 +1,4 @@
-package com.example.weatheracc.modules
+package com.example.weatheracc.di.modules
 
 import com.example.weatheracc.MainActivity
 import dagger.Module

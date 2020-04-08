@@ -20,5 +20,8 @@ interface WeatherForecastDao {
     suspend fun delete(weatherForecastDao: WeatherForecast): Int
 
     @Query("SELECT * FROM weather_forecast")
-    fun getAll(): Flow<List<WeatherForecast>>
+    fun getAllFlow(): Flow<List<WeatherForecast>>
+
+    @Query("SELECT * FROM weather_forecast")
+    suspend fun getAll(): List<WeatherForecast>
 }

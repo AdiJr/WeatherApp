@@ -1,4 +1,4 @@
-package com.example.weatheracc.modules
+package com.example.weatheracc.di.modules
 
 import androidx.lifecycle.ViewModel
 import com.example.weatheracc.viewModels.HomeViewModel
@@ -14,6 +14,11 @@ internal abstract class ViewModelModule {
 
     @Binds
     @IntoMap
+    @ViewModelKey(key = SplashViewModel::class)
+    abstract fun bindSplashViewModel(viewModel: SplashViewModel): ViewModel
+
+    @Binds
+    @IntoMap
     @ViewModelKey(key = HomeViewModel::class)
     abstract fun bindHomeViewModel(viewModel: HomeViewModel): ViewModel
 
@@ -26,9 +31,4 @@ internal abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(key = SearchedCitiesViewModel::class)
     abstract fun bindSearchedCitiesViewModel(viewModel: SearchedCitiesViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(key = SplashViewModel::class)
-    abstract fun bindSplashViewModel(viewModel: SplashViewModel): ViewModel
 }

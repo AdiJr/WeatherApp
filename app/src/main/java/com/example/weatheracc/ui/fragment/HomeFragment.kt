@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.weatheracc.R
 import com.example.weatheracc.viewModels.HomeViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.home_fragment.view.*
 import javax.inject.Inject
 
 class HomeFragment : DaggerFragment() {
@@ -19,10 +19,6 @@ class HomeFragment : DaggerFragment() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
     private val viewModel by viewModels<HomeViewModel> { factory }
-
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,15 +31,13 @@ class HomeFragment : DaggerFragment() {
                     activity?.finish()
                 }
             })
-        return inflater.inflate(R.layout.home_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        val button: FloatingActionButton = view?.findViewById(R.id.addFAB)!!
-        button.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSavedCitiesFragment())
+        return inflater.inflate(R.layout.home_fragment, container, false).apply {
+            tempUnitSwitcher.setOnClickListener {
+                viewModel.updateUnits()
+            }
+            addFAB.setOnClickListener {
+                findNavController().navigate(HomeFragmentDirections.toSavedCities())
+            }
         }
     }
 }

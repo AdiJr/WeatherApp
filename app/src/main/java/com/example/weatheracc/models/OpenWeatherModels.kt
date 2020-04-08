@@ -65,3 +65,20 @@ data class Coord(
 data class Clouds(
     @SerializedName("all") val all: Int
 )
+
+data class WeatherCityListResponse(
+    @SerializedName("cnt") val count: Int,
+    @SerializedName("list") val list: List<WeatherForecast>
+)
+
+data class FindCityWeatherResponse(
+    @SerializedName("message") val message: String,
+    @SerializedName("cod") val cod: Int,
+    @SerializedName("count") val count: Int,
+    @SerializedName("list") val list: List<WeatherForecast>
+)
+
+enum class Units {
+    METRIC,
+    IMPERIAL
+}
