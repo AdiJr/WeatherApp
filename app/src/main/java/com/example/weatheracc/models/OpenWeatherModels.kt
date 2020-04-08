@@ -11,7 +11,7 @@ data class WeatherForecast(
     @Embedded
     @SerializedName("coord") val coordinates: Coord,
     @SerializedName("weather") val weather: List<Weather>,
-    @SerializedName("base") val base: String,
+    @SerializedName("base") val base: String?,
     @Embedded
     @SerializedName("main") val main: Main,
     @SerializedName("visibility") val visibility: Int,
