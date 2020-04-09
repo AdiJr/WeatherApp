@@ -1,5 +1,6 @@
 package com.example.weatheracc.adapters
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +46,8 @@ class SearchedCitiesAdapter(
     class CitySearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(city: WeatherForecast, listener: (WeatherForecast) -> Unit) {
             itemView.apply {
-                tvSearchedCityName.text = "${city.name}, ${city.sys.country}"
+                val searchText = "<b>${city.name}</b>, ${city.sys.country}"
+                tvSearchedCityName.text = Html.fromHtml(searchText)
                 setOnClickListener { listener(city) }
             }
         }

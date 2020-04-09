@@ -15,7 +15,7 @@ class HomeViewModel @Inject constructor(
     private val repository: Repository,
     private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
-    private val units = MutableLiveData<Units>()
+    val units = MutableLiveData<Units>()
 
     fun updateUnits() {
         val currentUnits = sharedPreferences.getUnits()

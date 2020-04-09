@@ -10,12 +10,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:lineSpacingExtra="8sp"
         android:textColor="#deffffff"
         android:textSize="20sp"
-        android:textStyle="bold"
         tools:text="Warsaw" />
 
     <View
