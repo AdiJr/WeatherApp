@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatheracc.R
-import com.example.weatheracc.models.CityModel
+import com.example.weatheracc.models.WeatherForecast
 import kotlinx.android.synthetic.main.item_saved_city.view.*
+import kotlin.math.roundToInt
 
 class SavedCitiesAdapter(
-    private val listener: (CityModel) -> Unit
-) : ListAdapter<CityModel, SavedCitiesAdapter.CitiesViewHolder>(DIFF_CALLBACK) {
+    private val listener: (WeatherForecast) -> Unit
+) : ListAdapter<WeatherForecast, SavedCitiesAdapter.CitiesViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         CitiesViewHolder(
@@ -27,26 +28,62 @@ class SavedCitiesAdapter(
         holder.bind(getItem(position), listener)
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CityModel>() {
-            override fun areItemsTheSame(oldItem: CityModel, newItem: CityModel): Boolean =
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<WeatherForecast>() {
+            override fun areItemsTheSame(
+                oldItem: WeatherForecast,
+                newItem: WeatherForecast
+            ): Boolean =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: CityModel, newItem: CityModel): Boolean =
+            override fun areContentsTheSame(
+                oldItem: WeatherForecast,
+                newItem: WeatherForecast
+            ): Boolean =
                 oldItem == newItem
         }
     }
 
     class CitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(city: CityModel, listener: (CityModel) -> Unit) {
+        fun bind(city: WeatherForecast, listener: (WeatherForecast) -> Unit) {
             itemView.apply {
-                when (city.status) {
-                    "Sunny" -> setBackgroundResource(R.drawable.hot_background)
-                    "Clouds" -> setBackgroundResource(R.drawable.cloudy_background)
-                    "Clear Sky" -> setBackgroundResource(R.drawable.clear_background)
+                when (city.weather.firstOrNull()!!.description) {
+                    "clear sky" -> {
+                        setBackgroundResource(R.drawable.background_clear)
+                        weatherIcon.setImageResource(R.drawable.icon_sun)
+                    }
+
+                    "few clouds" -> {
+                        setBackgroundResource(R.drawable.background_cloudy)
+                        weatherIcon.setImageResource(R.drawable.icon_clouds)
+                    }
+                    "scattered clouds" -> {
+                        setBackgroundResource(R.drawable.background_cloudy)
+                        weatherIcon.setImageResource(R.drawable.icon_clouds)
+                    }
+                    "snow" -> weatherIcon.setImageResource(R.drawable.icon_snow)
+                    "rain" -> weatherIcon.setImageResource(R.drawable.icon_rain)
+                    "thunderstorm" -> weatherIcon.setImageResource(R.drawable.icon_thunder)
+                    "mist" -> weatherIcon.setImageResource(R.drawable.icon_mist)
+                    "broken clouds" -> setBackgroundResource(R.drawable.background_cloudy)
+                    "overcast clouds" -> setBackgroundResource(R.drawable.background_cloudy)
+                    else -> {
+                        setBackgroundResource(R.drawable.background_clear)
+                        weatherIcon.setImageResource(R.drawable.icon_sun)
+                    }
                 }
+
+                if (city.main.temp > 25) setBackgroundResource(
+                    R.drawable.hot_background
+                )
+
+                /*val updateTimeMillis = city.dt.toLong() * 1000
+                val simpleDateFormat = getDateInstance()
+                val updateDate = Date(updateTimeMillis)*/
+
                 tvCityName.text = city.name
-                tvDate.text = city.date
-                tvTemperature.text = "${city.temperature}"
+                tvCurrentTemp.text = "${city.main.temp.roundToInt()}\u00B0"
+                tvTemperatureMinMax.text =
+                    "${city.main.temp_max.roundToInt()}\u00B0 / ${city.main.temp_min.roundToInt()}\u00B0"
                 setOnClickListener { listener(city) }
             }
         }

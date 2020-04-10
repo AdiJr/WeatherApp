@@ -49,7 +49,7 @@ class SavedCitiesFragment : DaggerFragment() {
                     citiesAdapter.submitList(it)
                 })
                 units.observe(viewLifecycleOwner, Observer {
-                    tempUnitSwitcher.setCurrentText(getString(if (it == Units.METRIC) R.string.tempUnits_metric else R.string.tempUnits_imperial))
+                    tempUnitSwitcher.setText(getString(if (it == Units.METRIC) R.string.tempUnits_metric else R.string.tempUnits_imperial))
                 })
             }
         }

@@ -1,9 +1,12 @@
 package com.example.weatheracc.ui.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -35,33 +38,49 @@ class SearchedCitiesFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.city_search_fragment, container, false).apply {
-            btnConfirm.setOnClickListener { viewModel.searchCity(etSearch.text.toString()) }
+            etSearch.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    viewModel.searchCity(s.toString())
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            })
+
+            ivBackArrow.setOnClickListener { findNavController().popBackStack() }
             rvSearchedCities.adapter = searchedCitiesAdapter
 
             with(viewModel) {
                 cityList.observe(viewLifecycleOwner, Observer {
                     if (it.isNotEmpty()) {
                         searchedCitiesAdapter.submitList(it)
-                        handleVisibility(tvEmptyList, rvSearchedCities, false)
+                        handleVisibility(ivEmptyList, tvEmptyList, rvSearchedCities, false)
                     } else {
-                        tvEmptyList.text = context.getString(R.string.list_empty)
-                        handleVisibility(tvEmptyList, rvSearchedCities, true)
+                        handleVisibility(ivEmptyList, tvEmptyList, rvSearchedCities, true)
                     }
                 })
                 errorMessage.observe(viewLifecycleOwner, Observer {
-                    tvEmptyList.text = it
-                    handleVisibility(tvEmptyList, rvSearchedCities, true)
+                    handleVisibility(ivEmptyList, tvEmptyList, rvSearchedCities, true)
                 })
             }
         }
     }
 
     private fun handleVisibility(
+        imageView: ImageView,
         textView: TextView,
         recyclerView: RecyclerView,
         shouldShowError: Boolean
     ) {
         textView.visibility = if (shouldShowError) View.VISIBLE else View.GONE
+        imageView.visibility = if (shouldShowError) View.VISIBLE else View.GONE
         recyclerView.visibility = if (shouldShowError) View.GONE else View.VISIBLE
     }
 }

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface WeatherForecastDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(weatherForecastDao: WeatherForecastDao): Long
+    suspend fun insert(weatherForecastDao: WeatherForecast): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(weatherForecastDao: List<WeatherForecast>): List<Long>
@@ -20,5 +20,8 @@ interface WeatherForecastDao {
     suspend fun delete(weatherForecastDao: WeatherForecast): Int
 
     @Query("SELECT * FROM weather_forecast")
-    fun getAll(): Flow<List<WeatherForecast>>
+    fun getAllFlow(): Flow<List<WeatherForecast>>
+
+    @Query("SELECT * FROM weather_forecast")
+    suspend fun getAll(): List<WeatherForecast>
 }

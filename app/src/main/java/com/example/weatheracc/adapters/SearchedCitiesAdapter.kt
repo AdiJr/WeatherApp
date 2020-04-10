@@ -1,5 +1,6 @@
 package com.example.weatheracc.adapters
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,15 +8,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatheracc.R
-import com.example.weatheracc.models.SearchedCityModel
+import com.example.weatheracc.models.WeatherForecast
 import kotlinx.android.synthetic.main.item_searched_city.view.*
 
 class SearchedCitiesAdapter(
-    private val listener: (SearchedCityModel) -> Unit
-) : ListAdapter<SearchedCityModel, SearchedCitiesAdapter.CitiesViewHolder>(DIFF_CALLBACK) {
+    private val listener: (WeatherForecast) -> Unit
+) : ListAdapter<WeatherForecast, SearchedCitiesAdapter.CitySearchViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        CitiesViewHolder(
+        CitySearchViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_searched_city,
                 parent,
@@ -23,37 +24,31 @@ class SearchedCitiesAdapter(
             )
         )
 
-    override fun onBindViewHolder(holder: CitiesViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: CitySearchViewHolder, position: Int) =
         holder.bind(getItem(position), listener)
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SearchedCityModel>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<WeatherForecast>() {
             override fun areItemsTheSame(
-                oldItem: SearchedCityModel,
-                newItem: SearchedCityModel
+                oldItem: WeatherForecast,
+                newItem: WeatherForecast
             ): Boolean =
                 oldItem.id == newItem.id
 
             override fun areContentsTheSame(
-                oldItem: SearchedCityModel,
-                newItem: SearchedCityModel
+                oldItem: WeatherForecast,
+                newItem: WeatherForecast
             ): Boolean =
                 oldItem == newItem
         }
     }
 
-    class CitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(city: SearchedCityModel, listener: (SearchedCityModel) -> Unit) {
+    class CitySearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(city: WeatherForecast, listener: (WeatherForecast) -> Unit) {
             itemView.apply {
-                if (city.id == "1") {
-                    tvSearchedCityName.text = city.name
-                    icon.setBackgroundResource(R.drawable.current_location)
-                    setOnClickListener { listener(city) }
-                } else {
-                    tvSearchedCityName.text = city.name
-                    icon.setBackgroundResource(R.drawable.recent)
-                    setOnClickListener { listener(city) }
-                }
+                val searchText = "<b>${city.name}</b>, ${city.sys.country}"
+                tvSearchedCityName.text = Html.fromHtml(searchText)
+                setOnClickListener { listener(city) }
             }
         }
     }
