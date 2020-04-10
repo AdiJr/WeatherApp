@@ -17,6 +17,7 @@ class SplashViewModel @Inject constructor(
 ) : ViewModel() {
 
     val proceed = MutableLiveData<Boolean>()
+    var isEmpty = true
 
     init {
         viewModelScope.launch {
@@ -27,8 +28,12 @@ class SplashViewModel @Inject constructor(
             val fetchDone = async {
                 try {
                     val list = repository.getWeatherList().map { it.id }
-                    if (list.isNotEmpty())
+                    isEmpty = if (list.isNotEmpty()) {
                         repository.fetchWeatherByCityIdList(list, sharedPreferences.getUnits())
+                        false
+                    } else {
+                        true
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

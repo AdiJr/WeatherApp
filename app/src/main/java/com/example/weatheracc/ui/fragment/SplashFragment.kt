@@ -26,7 +26,11 @@ class SplashFragment : DaggerFragment() {
     ): View {
         return inflater.inflate(R.layout.splash_fragment, container, false).apply {
             viewModel.proceed.observe(viewLifecycleOwner, Observer {
-                findNavController().navigate(SplashFragmentDirections.toHome())
+                if (viewModel.isEmpty) {
+                    findNavController().navigate(SplashFragmentDirections.toHome())
+                } else {
+                    findNavController().navigate(SplashFragmentDirections.toSavedCities())
+                }
             })
         }
     }
