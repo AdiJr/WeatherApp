@@ -10,25 +10,37 @@
         android:id="@+id/wave"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:scaleType="fitXY"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_wave"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_wave_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/tempUnitTv"
+    <TextSwitcher
+        android:id="@+id/tempUnitSwitcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/tempUnit"
-        android:textColor="@android:color/white"
-        android:textSize="22sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tempUnits_metric"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tempUnits_imperial"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+    </TextSwitcher>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCity"
@@ -43,18 +55,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:spanCount="2" />
+        app:spanCount="2"
+        tools:listitem="@layout/item_saved_city" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addFAB2"
+        android:id="@+id/fabAddCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:clickable="true"
         android:focusable="true"
-        android:outlineAmbientShadowColor="#3d000000"
-        android:src="@drawable/ic_add_white_24dp"
+        android:src="@drawable/ic_add"
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

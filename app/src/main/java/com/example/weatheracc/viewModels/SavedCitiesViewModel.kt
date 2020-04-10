@@ -1,34 +1,62 @@
 package com.example.weatheracc.viewModels
 
-import android.util.Log
+import android.content.SharedPreferences
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weatheracc.models.Units
 import com.example.weatheracc.models.WeatherForecast
 import com.example.weatheracc.repository.Repository
+import com.example.weatheracc.repository.local.getUnits
+import com.example.weatheracc.repository.local.setUnits
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
-class SavedCitiesViewModel(repository: Repository) : ViewModel() {
-
-    private val tag = "SavedCitiesViewModel"
+@ExperimentalCoroutinesApi
+class SavedCitiesViewModel @Inject constructor(
+    private val repository: Repository,
+    private val sharedPreferences: SharedPreferences
+) : ViewModel() {
 
     val weatherList = MutableLiveData<List<WeatherForecast>>()
+    val units = MutableLiveData<Units>()
 
     init {
-        repository.getWeatherList()
+        repository.getWeatherListFlow()
             .onStart {
-                Log.d(tag, "Flow starting")
+                Timber.d("Flow starting")
             }
             .onCompletion {
-                Log.d(tag, "Flow complete")
+                Timber.d("Flow complete")
             }
             .catch {
-                Log.d(tag, "Flow error $it")
+                Timber.d("Flow error $it")
             }
             .onEach {
-                Log.d(tag, "Flow success $it")
+                Timber.d("Flow success $it")
                 weatherList.value = it
             }
             .launchIn(viewModelScope)
+        units.value = sharedPreferences.getUnits()
+    }
+
+    fun updateUnits() {
+        val currentUnits = sharedPreferences.getUnits()
+        val newUnits = if (currentUnits == Units.METRIC) Units.IMPERIAL else Units.METRIC
+
+        viewModelScope.launch {
+            repository.getWeatherList().map { it.id }.let {
+                try {
+                    repository.fetchWeatherByCityIdList(it, newUnits)
+                    sharedPreferences.setUnits(newUnits)
+                    units.postValue(newUnits)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 }
