@@ -9,11 +9,13 @@ import com.example.weatheracc.models.WeatherForecast
 import com.example.weatheracc.repository.Repository
 import com.example.weatheracc.repository.local.getUnits
 import com.example.weatheracc.repository.local.setUnits
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class SavedCitiesViewModel @Inject constructor(
     private val repository: Repository,
     private val sharedPreferences: SharedPreferences

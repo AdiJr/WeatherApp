@@ -38,7 +38,7 @@ class HomeFragment : DaggerFragment() {
                 viewModel.updateUnits()
             }
             addFAB.setOnClickListener {
-                findNavController().navigate(HomeFragmentDirections.toSavedCities())
+                findNavController().navigate(HomeFragmentDirections.toSearchedCities())
             }
             with(viewModel) {
                 units.observe(viewLifecycleOwner, Observer {

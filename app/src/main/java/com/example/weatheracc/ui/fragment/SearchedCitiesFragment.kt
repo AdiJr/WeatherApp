@@ -29,7 +29,7 @@ class SearchedCitiesFragment : DaggerFragment() {
     private val searchedCitiesAdapter by lazy {
         SearchedCitiesAdapter {
             viewModel.storeCity(it)
-            findNavController().popBackStack()
+            findNavController().navigate(SearchedCitiesFragmentDirections.toSavedCities())
         }
     }
 

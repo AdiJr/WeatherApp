@@ -31,8 +31,8 @@
         android:label="home_fragment"
         tools:layout="@layout/home_fragment">
         <action
-            android:id="@+id/toSavedCities"
-            app:destination="@id/SavedCitiesFragment"
+            android:id="@+id/to_SearchedCities"
+            app:destination="@id/SearchedCitiesFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
     </fragment>
@@ -46,11 +46,31 @@
             app:destination="@id/SearchedCitiesFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/SearchedCitiesFragment"
         android:name="com.example.weatheracc.ui.fragment.SearchedCitiesFragment"
         android:label="SeatchedCitiesFragment"
-        tools:layout="@layout/city_search_fragment" />
+        tools:layout="@layout/city_search_fragment">
+        <action
+            android:id="@+id/to_SavedCities"
+            app:destination="@id/SavedCitiesFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.weatheracc.ui.fragment.DetailsFragment"
+        android:label="details_fragment"
+        tools:layout="@layout/details_fragment">
+        <argument
+            android:name="item"
+            app:argType="com.example.weatheracc.models.WeatherForecast" />
+    </fragment>
 
 </navigation>

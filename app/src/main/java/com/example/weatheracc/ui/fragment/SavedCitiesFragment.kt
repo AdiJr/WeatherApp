@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,17 +14,20 @@ import com.example.weatheracc.models.Units
 import com.example.weatheracc.viewModels.SavedCitiesViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.cities_saved_fragment.view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 class SavedCitiesFragment : DaggerFragment() {
 
     @Inject
     lateinit var factory: ViewModelProvider.Factory
+
+    @ExperimentalCoroutinesApi
     private val viewModel by viewModels<SavedCitiesViewModel> { factory }
 
     private val citiesAdapter by lazy {
         SavedCitiesAdapter {
-            Toast.makeText(context, it.name, Toast.LENGTH_SHORT).show()
+            findNavController().navigate(SavedCitiesFragmentDirections.toDetailsFragment(it))
         }
     }
 

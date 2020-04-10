@@ -1,9 +1,6 @@
 package com.example.weatheracc.di.modules
 
-import com.example.weatheracc.ui.fragment.HomeFragment
-import com.example.weatheracc.ui.fragment.SavedCitiesFragment
-import com.example.weatheracc.ui.fragment.SearchedCitiesFragment
-import com.example.weatheracc.ui.fragment.SplashFragment
+import com.example.weatheracc.ui.fragment.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,4 +18,7 @@ internal abstract class FragmentsModule {
 
     @ContributesAndroidInjector
     internal abstract fun bindSearchedCitiesFragment(): SearchedCitiesFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun bindDetailsFragment(): DetailsFragment
 }

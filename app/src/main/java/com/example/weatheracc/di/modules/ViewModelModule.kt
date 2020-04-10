@@ -1,10 +1,7 @@
 package com.example.weatheracc.di.modules
 
 import androidx.lifecycle.ViewModel
-import com.example.weatheracc.viewModels.HomeViewModel
-import com.example.weatheracc.viewModels.SavedCitiesViewModel
-import com.example.weatheracc.viewModels.SearchedCitiesViewModel
-import com.example.weatheracc.viewModels.SplashViewModel
+import com.example.weatheracc.viewModels.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -31,4 +28,9 @@ internal abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(key = SearchedCitiesViewModel::class)
     abstract fun bindSearchedCitiesViewModel(viewModel: SearchedCitiesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(key = DetailsViewModel::class)
+    abstract fun bindDetailsViewModel(viewModel: DetailsViewModel): ViewModel
 }

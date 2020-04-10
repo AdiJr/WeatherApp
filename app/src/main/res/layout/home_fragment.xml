@@ -31,7 +31,7 @@
             android:layout_marginTop="290dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_wave" />
+            android:src="@drawable/ic_wave_blue" />
     </RelativeLayout>
 
     <TextView
