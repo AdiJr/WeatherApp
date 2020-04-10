@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatheracc.R
 import com.example.weatheracc.models.WeatherForecast
 import kotlinx.android.synthetic.main.item_saved_city.view.*
-import java.text.DateFormat.getDateInstance
-import java.util.*
 import kotlin.math.roundToInt
 
 class SavedCitiesAdapter(
@@ -73,15 +71,18 @@ class SavedCitiesAdapter(
                         weatherIcon.setImageResource(R.drawable.icon_sun)
                     }
                 }
-                if (city.main.temp > 25) setBackgroundResource(R.drawable.hot_background)
 
-                val updateTimeMillis = city.dt.toLong() * 1000
+                if (city.main.temp > 25) setBackgroundResource(
+                    R.drawable.hot_background
+                )
+
+                /*val updateTimeMillis = city.dt.toLong() * 1000
                 val simpleDateFormat = getDateInstance()
-                val updateDate = Date(updateTimeMillis)
+                val updateDate = Date(updateTimeMillis)*/
 
                 tvCityName.text = city.name
-                tvDate.text = simpleDateFormat.format(updateDate)
-                tvTemperature.text =
+                tvCurrentTemp.text = "${city.main.temp.roundToInt()}\u00B0"
+                tvTemperatureMinMax.text =
                     "${city.main.temp_max.roundToInt()}\u00B0 / ${city.main.temp_min.roundToInt()}\u00B0"
                 setOnClickListener { listener(city) }
             }

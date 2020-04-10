@@ -21,28 +21,28 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvDate"
+        android:id="@+id/tvCurrentTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/tvTemperature"
+        android:textSize="21.3sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvTemperatureMinMax"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvCityName"
-        tools:text="26 June, 2020" />
+        tools:text="29\u00B0" />
 
     <TextView
-        android:id="@+id/tvTemperature"
+        android:id="@+id/tvTemperatureMinMax"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:textColor="@android:color/white"
-        android:textSize="21.3sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="29\u00B0" />
+        tools:text="25\u00B0 / 16\u00B0" />
 
     <ImageView
         android:id="@+id/weatherIcon"

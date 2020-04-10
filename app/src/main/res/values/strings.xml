@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">WeatherAcc</string>
+    <string name="app_name" translatable="false">My Weather</string>
     <string name="splash_tvFirstLine">Welcome to</string>
     <string name="splash_tvSecondLine">WEATHER APP</string>
     <string name="tvTempUnit">\u00B0C / \u2109</string>

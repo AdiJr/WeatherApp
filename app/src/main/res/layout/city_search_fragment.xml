@@ -9,54 +9,70 @@
 
     <EditText
         android:id="@+id/etSearch"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:autofillHints="auto"
         android:background="@drawable/rounded_corners"
         android:drawableStart="@drawable/ic_search_24dp"
-        android:hint="@string/enter_city_hint"
         android:drawablePadding="10dp"
-        android:inputType="text"
+        android:hint="@string/enter_city_hint"
+        android:inputType="textNoSuggestions"
         android:lineSpacingExtra="8sp"
         android:padding="10dp"
+        android:textColor="@android:color/white"
+        android:textCursorDrawable="@null"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivBackArrow"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnConfirm"
+    <ImageView
+        android:id="@+id/ivEmptyList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="SEND"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/city"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etSearch" />
-
-    <TextView
-        android:id="@+id/tvEmptyList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnConfirm" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchedCities"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnConfirm"
-        tools:listitem="@layout/item_searched_city" />
+        app:layout_constraintTop_toBottomOf="@+id/etSearch"
+        tools:listitem="@layout/item_searched_city"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/ivBackArrow"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_back_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvEmptyList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="No cities found"
+        android:textColor="#deffffff"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivEmptyList" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
