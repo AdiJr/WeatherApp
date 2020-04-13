@@ -6,8 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.weatheracc.models.WeatherForecast
+import com.example.weatheracc.models.WeatherOneCallApi
 
-@Database(entities = [WeatherForecast::class], version = 1)
+@Database(entities = [WeatherForecast::class, WeatherOneCallApi::class], version = 1)
 @TypeConverters(RoomTypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun weatherForecastDao(): WeatherForecastDao
@@ -29,7 +30,7 @@ abstract class AppDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(
                 context.applicationContext,
-                AppDatabase::class.java, "weather_acc.db"
+                AppDatabase::class.java, "my_weather.db"
             )
                 .fallbackToDestructiveMigration()
                 .build()

@@ -18,7 +18,7 @@
         android:drawableStart="@drawable/ic_search_24dp"
         android:drawablePadding="10dp"
         android:hint="@string/enter_city_hint"
-        android:inputType="textNoSuggestions"
+        android:inputType="textCapWords"
         android:lineSpacingExtra="8sp"
         android:padding="10dp"
         android:textColor="@android:color/white"

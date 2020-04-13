@@ -33,7 +33,7 @@ class SavedCitiesAdapter(
                 oldItem: WeatherForecast,
                 newItem: WeatherForecast
             ): Boolean =
-                oldItem.id == newItem.id
+                oldItem.coordinates.lat == newItem.coordinates.lat
 
             override fun areContentsTheSame(
                 oldItem: WeatherForecast,
@@ -75,10 +75,6 @@ class SavedCitiesAdapter(
                 if (city.main.temp > 25) setBackgroundResource(
                     R.drawable.hot_background
                 )
-
-                /*val updateTimeMillis = city.dt.toLong() * 1000
-                val simpleDateFormat = getDateInstance()
-                val updateDate = Date(updateTimeMillis)*/
 
                 tvCityName.text = city.name
                 tvCurrentTemp.text = "${city.main.temp.roundToInt()}\u00B0"

@@ -40,7 +40,7 @@ class SearchedCitiesFragment : DaggerFragment() {
         return inflater.inflate(R.layout.city_search_fragment, container, false).apply {
             etSearch.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
-                    viewModel.searchCity(s.toString())
+                    viewModel.searchCity(s.toString().trim())
                 }
 
                 override fun beforeTextChanged(
