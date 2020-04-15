@@ -32,7 +32,7 @@ data class Current(
     @SerializedName("wind_speed") val wind_speed: Double,
     @SerializedName("wind_deg") val wind_deg: Int,
     @SerializedName("wind_gust") val wind_gust: Int,
-    @SerializedName("rain") val rain: Int,
+    /*@SerializedName("rain") val rain: Int,*/
     @SerializedName("snow") val snow: Int,
     @SerializedName("weather") val weather: List<WeatherOneCall>
 )
@@ -47,7 +47,7 @@ data class Hourly(
     @SerializedName("dew_point") val dew_point: Double,
     @SerializedName("clouds") val clouds: Int,
     @SerializedName("wind_gust") val wind_gust: Int,
-    @SerializedName("rain") val rain: Int,
+    /*  @SerializedName("rain") val rain: Int,*/
     @SerializedName("snow") val snow: Int,
     @SerializedName("wind_speed") val wind_speed: Double,
     @SerializedName("wind_deg") val wind_deg: Int,
@@ -91,4 +91,9 @@ data class Temp(
     @SerializedName("night") val night: Double,
     @SerializedName("eve") val eve: Double,
     @SerializedName("morn") val morn: Double
+)
+
+data class ForecastDetails(
+    val title: String,
+    val value: String
 )

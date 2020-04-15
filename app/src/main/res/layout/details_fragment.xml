@@ -6,24 +6,61 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clDetailsMainContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/details_background_clear"
         tools:context=".ui.fragment.DetailsFragment">
 
+        <ImageView
+            android:id="@+id/ivClouds"
+            android:layout_width="wrap_content"
+            android:src="@drawable/clouds_rain"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/rvDailyForecast"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivRain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/rain"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/clDetailsContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivGradient"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/gradient_mist"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/clDetailsContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivDetailsSun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/details_background_sun"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/ivDetailsSun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/details_background_sun" />
 
             <ImageView
                 android:id="@+id/ivBackArrowDetails"
@@ -129,19 +166,29 @@
             app:layout_constraintTop_toBottomOf="@+id/tvDetailsTempMaxMin"
             tools:text="Sunny" />
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="8dp"
+            android:text="Today"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dividerUpdated" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDailyForecast"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dividerUpdated"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
             tools:listitem="@layout/item_daily_forecast" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -194,9 +241,8 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
             android:src="@drawable/openweatherlogo"
-            app:layout_constraintBottom_toTopOf="@+id/rvDailyForecast"
+            app:layout_constraintBottom_toTopOf="@+id/dividerUpdated"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDetailsDescription" />
 
@@ -204,10 +250,9 @@
             android:id="@+id/tvLastUpdated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
             android:textColor="@android:color/white"
-            app:layout_constraintBottom_toTopOf="@+id/rvDailyForecast"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDetailsDescription"
             tools:text="Last updated: 12:00" />
@@ -217,14 +262,12 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="5dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
             android:background="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/rvDailyForecast"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLastUpdated" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"

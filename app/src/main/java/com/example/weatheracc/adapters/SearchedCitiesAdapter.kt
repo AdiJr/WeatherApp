@@ -48,7 +48,7 @@ class SearchedCitiesAdapter(
     class CitySearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(city: WeatherForecast, listener: (WeatherForecast) -> Unit) {
             itemView.apply {
-                val locale = Locale.Builder().setLanguage("en").build()
+                val locale = Locale.Builder().setLanguage(Locale.getDefault().language).build()
                 val geocoder = Geocoder(context, locale)
                 val geoCity =
                     geocoder.getFromLocation(city.coordinates.lat, city.coordinates.lon, 1)

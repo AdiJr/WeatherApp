@@ -1,5 +1,6 @@
 package com.example.weatheracc.di.modules
 
+import android.content.SharedPreferences
 import com.example.weatheracc.repository.Repository
 import com.example.weatheracc.repository.local.AppDatabase
 import com.example.weatheracc.repository.remote.OpenWeatherApi
@@ -16,6 +17,12 @@ class RepositoryModule {
     fun provideRepository(
         openWeatherApi: OpenWeatherApi,
         openWeatherOneCallApi: OpenWeatherOneCallApi,
-        database: AppDatabase
-    ) = Repository(openWeatherApi, openWeatherOneCallApi, database.weatherForecastDao())
+        database: AppDatabase,
+        sharedPreferences: SharedPreferences
+    ) = Repository(
+        openWeatherApi,
+        openWeatherOneCallApi,
+        database.weatherForecastDao(),
+        sharedPreferences
+    )
 }
