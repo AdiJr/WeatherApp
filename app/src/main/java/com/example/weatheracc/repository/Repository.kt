@@ -3,6 +3,7 @@ package com.example.weatheracc.repository
 import android.content.SharedPreferences
 import com.example.weatheracc.models.Units
 import com.example.weatheracc.models.WeatherForecast
+import com.example.weatheracc.models.WeatherOneCallApi
 import com.example.weatheracc.repository.local.WeatherForecastDao
 import com.example.weatheracc.repository.local.getUnits
 import com.example.weatheracc.repository.remote.OpenWeatherApi
@@ -45,6 +46,9 @@ class Repository(
     suspend fun storeCity(weatherForecast: WeatherForecast) =
         weatherForecastDao.insert(weatherForecast)
 
+    suspend fun storeCity(weatherOneCallApi: WeatherOneCallApi) =
+        weatherForecastDao.insert(weatherOneCallApi)
+
     suspend fun fetchWeatherByCoordinates(
         latitude: Double,
         longitude: Double,
@@ -56,8 +60,8 @@ class Repository(
             longitude,
             units.name.toLowerCase(Locale.ROOT),
             language
-        ).also {
-            weatherForecastDao.insert(it)
-            weatherForecastDao.getForecastForCity(it.lat)
-        }
+        )
+
+    suspend fun getForecast(latitude: Double, longitude: Double) =
+        weatherForecastDao.getForecastForCity(latitude, longitude)
 }

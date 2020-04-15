@@ -1,5 +1,7 @@
 package com.example.weatheracc.ui.fragment
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,13 +27,32 @@ class SplashFragment : DaggerFragment() {
         savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.splash_fragment, container, false).apply {
-            viewModel.proceed.observe(viewLifecycleOwner, Observer {
-                if (viewModel.isEmpty) {
-                    findNavController().navigate(SplashFragmentDirections.toHome())
-                } else {
-                    findNavController().navigate(SplashFragmentDirections.toSavedCities())
-                }
-            })
+            if (checkInternetConnection(context)) {
+                viewModel.fetchOnline()
+                viewModel.proceed.observe(viewLifecycleOwner, Observer {
+                    if (viewModel.isEmpty) {
+                        findNavController().navigate(SplashFragmentDirections.toHome())
+                    } else {
+                        findNavController().navigate(SplashFragmentDirections.toSavedCities())
+                    }
+                })
+            } else {
+                viewModel.fetchOffline()
+                viewModel.proceed.observe(viewLifecycleOwner, Observer {
+                    if (viewModel.isEmpty) {
+                        findNavController().navigate(SplashFragmentDirections.toHome())
+                    } else {
+                        findNavController().navigate(SplashFragmentDirections.toSavedCities())
+                    }
+                })
+            }
         }
+    }
+
+    private fun checkInternetConnection(context: Context): Boolean {
+        val conManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return (conManager.activeNetworkInfo != null && conManager.activeNetworkInfo.isAvailable
+                && conManager.activeNetworkInfo.isConnected)
     }
 }

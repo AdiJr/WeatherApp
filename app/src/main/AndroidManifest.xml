@@ -2,7 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.weatheracc">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-sdk
+        android:maxSdkVersion="29"
+        android:minSdkVersion="21"
+        android:targetSdkVersion="29" />
 
     <application
         android:name="WeatherApplication"

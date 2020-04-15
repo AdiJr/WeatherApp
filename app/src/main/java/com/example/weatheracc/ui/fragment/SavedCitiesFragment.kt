@@ -57,13 +57,19 @@ class SavedCitiesFragment : DaggerFragment() {
 
             with(viewModel) {
                 weatherList.observe(viewLifecycleOwner, Observer {
+                    refreshData(
+                        it.firstOrNull()!!.coordinates.lat,
+                        it.firstOrNull()!!.coordinates.lon
+                    )
                     citiesAdapter.submitList(it)
 
                     if (it.firstOrNull()!!.main.temp.roundToInt() > 28 && currentUnits == Units.METRIC) {
                         clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
+                        weatherIcon.setImageDrawable(resources.getDrawable(R.drawable.icon_orange_sun))
                     }
                     if (it.firstOrNull()!!.main.temp > 82.4 && currentUnits == Units.IMPERIAL) {
                         clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
+                        weatherIcon.setImageDrawable(resources.getDrawable(R.drawable.icon_orange_sun))
                     }
 
                 })

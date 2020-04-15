@@ -60,4 +60,11 @@ class SavedCitiesViewModel @Inject constructor(
             }
         }
     }
+
+    fun refreshData(latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+            val toStore = repository.fetchWeatherByCoordinates(latitude, longitude)
+            repository.storeCity(toStore)
+        }
+    }
 }

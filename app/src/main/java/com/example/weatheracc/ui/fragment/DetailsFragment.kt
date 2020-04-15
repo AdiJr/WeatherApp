@@ -1,9 +1,12 @@
 package com.example.weatheracc.ui.fragment
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -16,6 +19,7 @@ import com.example.weatheracc.adapters.HourlyAdapter
 import com.example.weatheracc.models.ForecastDetails
 import com.example.weatheracc.models.Units
 import com.example.weatheracc.viewModels.DetailsViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.details_fragment.view.*
 import kotlinx.android.synthetic.main.item_daily_forecast.*
@@ -42,6 +46,13 @@ class DetailsFragment : DaggerFragment() {
         CurrentConditionsAdapter()
     }
 
+    private fun checkInternetConnection(context: Context): Boolean {
+        val conManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return (conManager.activeNetworkInfo != null && conManager.activeNetworkInfo.isAvailable
+                && conManager.activeNetworkInfo.isConnected)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,7 +64,38 @@ class DetailsFragment : DaggerFragment() {
             rvDetailsCurrent.adapter = currentAdapter
 
             with(viewModel) {
-                storeCityByCoordinates(args.item.coordinates.lat, args.item.coordinates.lon)
+
+                swipeRefresh.setOnRefreshListener {
+                    if (checkInternetConnection(context)) {
+                        refreshData(args.item.coordinates.lat, args.item.coordinates.lon)
+                        Snackbar.make(swipeRefresh, "Forecast updated", Snackbar.LENGTH_LONG)
+                            .apply {
+                                view.layoutParams =
+                                    (view.layoutParams as FrameLayout.LayoutParams).apply {
+                                        setMargins(12, 12, 12, 12)
+                                    }
+                                view.background = resources.getDrawable(R.drawable.snackbar)
+                            }.show()
+                        swipeRefresh.isRefreshing = false
+                    } else {
+                        Snackbar.make(swipeRefresh, "No internet connection", Snackbar.LENGTH_LONG)
+                            .apply {
+                                view.layoutParams =
+                                    (view.layoutParams as FrameLayout.LayoutParams).apply {
+                                        setMargins(12, 12, 12, 12)
+                                    }
+                                view.background = resources.getDrawable(R.drawable.snackbar)
+                            }.show()
+                        swipeRefresh.isRefreshing = false
+                    }
+                }
+
+                if (checkInternetConnection(context)) {
+                    getCityOnline(args.item.coordinates.lat, args.item.coordinates.lon)
+                } else {
+                    getCity(args.item.coordinates.lat, args.item.coordinates.lon)
+                }
+
                 dailyList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
                     detailsAdapter.submitList(it)
                 })
@@ -211,9 +253,5 @@ class DetailsFragment : DaggerFragment() {
                 resources.getString(R.string.app_name) + ", version: ${BuildConfig.VERSION_NAME}"
             tvFooterCopyright.text = "Copyright \u00A9 2020 AdiJr, Mobilabs, Accenture"
         }
-    }
-
-    fun search(v: View) {
-        findNavController().navigate(DetailsFragmentDirections.toSearchedCitiesFragment())
     }
 }

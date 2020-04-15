@@ -12,14 +12,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(
-    repository: Repository,
-    sharedPreferences: SharedPreferences
+    val repository: Repository,
+    val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     val proceed = MutableLiveData<Boolean>()
     var isEmpty = true
 
-    init {
+    fun fetchOnline() {
         viewModelScope.launch {
             val animationDone = async {
                 delay(2_500)
@@ -40,6 +40,19 @@ class SplashViewModel @Inject constructor(
                 true
             }
             animationDone.await() && fetchDone.await()
+            proceed.postValue(true)
+        }
+    }
+
+    fun fetchOffline() {
+        viewModelScope.launch {
+            val animationDone = async {
+                delay(2_500)
+                true
+            }
+            val list = repository.getWeatherList().map { it.id }
+            isEmpty = list.isEmpty()
+            animationDone.await()
             proceed.postValue(true)
         }
     }

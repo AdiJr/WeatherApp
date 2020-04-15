@@ -35,6 +35,6 @@ interface WeatherForecastDao {
     @Delete
     suspend fun delete(weatherForecastDao: WeatherOneCallApi): Int
 
-    @Query("SELECT * FROM forecast_one_call_api WHERE lat LIKE :latitude")
-    suspend fun getForecastForCity(latitude: Double): WeatherOneCallApi
+    @Query("SELECT * FROM forecast_one_call_api WHERE lat LIKE :latitude AND lon LIKE :longitude")
+    suspend fun getForecastForCity(latitude: Double, longitude: Double): WeatherOneCallApi
 }

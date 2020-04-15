@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class DetailsViewModel @Inject constructor(
     private val repository: Repository,
-    private val sharedPreferences: SharedPreferences
+    sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     val dailyList = MutableLiveData<List<Daily>>()
@@ -23,7 +23,20 @@ class DetailsViewModel @Inject constructor(
 
     val currentUnits = sharedPreferences.getUnits()
 
-    fun storeCityByCoordinates(latitude: Double, longitude: Double) {
+    fun getCity(latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+            try {
+                val result = repository.getForecast(latitude, longitude)
+                dailyList.postValue(result.daily)
+                hourlyList.postValue(result.hourly)
+                allList.postValue(result)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun getCityOnline(latitude: Double, longitude: Double) {
         viewModelScope.launch {
             try {
                 val result = repository.fetchWeatherByCoordinates(latitude, longitude)
@@ -33,6 +46,14 @@ class DetailsViewModel @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
+    }
+
+    fun refreshData(latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+            val toStore = repository.fetchWeatherByCoordinates(latitude, longitude)
+            repository.storeCity(toStore)
+            repository.getForecast(latitude, longitude)
         }
     }
 }

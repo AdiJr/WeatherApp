@@ -1,5 +1,7 @@
 package com.example.weatheracc.ui.fragment
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -33,14 +35,31 @@ class SearchedCitiesFragment : DaggerFragment() {
         }
     }
 
+    fun checkInternetConnection(context: Context): Boolean {
+        val conManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return (conManager.activeNetworkInfo != null && conManager.activeNetworkInfo.isAvailable
+                && conManager.activeNetworkInfo.isConnected)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.city_search_fragment, container, false).apply {
+
             etSearch.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
-                    viewModel.searchCity(s.toString().trim())
+                    if (checkInternetConnection(context)) {
+                        ivNoCon.visibility = View.GONE
+                        tvNoCon.visibility = View.GONE
+                        rvSearchedCities.visibility = View.VISIBLE
+                        viewModel.searchCity(s.toString())
+                    } else {
+                        ivNoCon.visibility = View.VISIBLE
+                        tvNoCon.visibility = View.VISIBLE
+                        rvSearchedCities.visibility = View.GONE
+                    }
                 }
 
                 override fun beforeTextChanged(
@@ -51,7 +70,13 @@ class SearchedCitiesFragment : DaggerFragment() {
                 ) {
                 }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun onTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    before: Int,
+                    count: Int
+                ) {
+                }
             })
 
             ivBackArrow.setOnClickListener { findNavController().popBackStack() }

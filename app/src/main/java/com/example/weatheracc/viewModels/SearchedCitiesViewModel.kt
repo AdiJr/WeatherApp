@@ -29,6 +29,11 @@ class SearchedCitiesViewModel @Inject constructor(private val repository: Reposi
     fun storeCity(weatherForecast: WeatherForecast) {
         viewModelScope.launch {
             repository.storeCity(weatherForecast)
+            val toStore = repository.fetchWeatherByCoordinates(
+                weatherForecast.coordinates.lat,
+                weatherForecast.coordinates.lon
+            )
+            repository.storeCity(toStore)
         }
     }
 }
