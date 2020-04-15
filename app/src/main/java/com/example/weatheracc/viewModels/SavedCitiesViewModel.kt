@@ -23,6 +23,7 @@ class SavedCitiesViewModel @Inject constructor(
 
     val weatherList = MutableLiveData<List<WeatherForecast>>()
     val units = MutableLiveData<Units>()
+    val currentUnits = sharedPreferences.getUnits()
 
     init {
         repository.getWeatherListFlow()

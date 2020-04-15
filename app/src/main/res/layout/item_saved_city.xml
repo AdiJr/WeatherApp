@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="173dp"
     android:layout_height="165dp"
-    tools:background="@drawable/background_clear">
+    android:id="@+id/clSavedCityItem"
+    android:background="@drawable/background_clear">
 
     <TextView
         android:id="@+id/tvCityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="Warsaw"
+        tools:text="Warsaw"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="24sp"
@@ -52,5 +53,5 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/icon_orange_sun" />
+        app:srcCompat="@drawable/icon_orange_sun" />
 </androidx.constraintlayout.widget.ConstraintLayout>

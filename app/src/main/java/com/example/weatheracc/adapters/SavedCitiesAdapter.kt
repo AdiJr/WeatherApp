@@ -47,30 +47,31 @@ class SavedCitiesAdapter(
         fun bind(city: WeatherForecast, listener: (WeatherForecast) -> Unit) {
             itemView.apply {
                 when (city.weather.firstOrNull()!!.main) {
-                    "Clear" -> {
-                        setBackgroundResource(R.drawable.background_clear)
-                        weatherIcon.setImageResource(R.drawable.icon_sun)
-                    }
-
                     "Clouds" -> {
                         setBackgroundResource(R.drawable.background_cloudy)
                         weatherIcon.setImageResource(R.drawable.icon_clouds)
                     }
-                    "Snow" -> weatherIcon.setImageResource(R.drawable.icon_snow)
-                    "Rain" -> weatherIcon.setImageResource(R.drawable.icon_rain)
-                    "Thunderstorm" -> weatherIcon.setImageResource(R.drawable.icon_thunder)
-                    "Mist" -> weatherIcon.setImageResource(R.drawable.icon_mist)
-
-                    else -> {
-                        setBackgroundResource(R.drawable.background_clear)
-                        weatherIcon.setImageResource(R.drawable.icon_sun)
+                    "Snow" -> {
+                        setBackgroundResource(R.drawable.background_cloudy)
+                        weatherIcon.setImageResource(R.drawable.icon_snow)
+                    }
+                    "Rain" -> {
+                        setBackgroundResource(R.drawable.background_mist)
+                        weatherIcon.setImageResource(R.drawable.icon_rain)
+                    }
+                    "Thunderstorm" -> {
+                        setBackgroundResource(R.drawable.background_mist)
+                        weatherIcon.setImageResource(R.drawable.icon_thunder)
+                    }
+                    "Mist" -> {
+                        setBackgroundResource(R.drawable.background_mist)
+                        weatherIcon.setImageResource(R.drawable.icon_mist)
                     }
                 }
-
-                if (city.main.temp > 25) setBackgroundResource(
-                    R.drawable.hot_background
-                )
-
+                if (System.currentTimeMillis() > city.sys.sunset && System.currentTimeMillis() < city.sys.sunrise) {
+                    setBackgroundResource(R.drawable.background_night)
+                    weatherIcon.visibility = View.GONE
+                }
                 tvCityName.text = city.name
                 tvCurrentTemp.text = "${city.main.temp.roundToInt()}\u00B0"
                 tvTemperatureMinMax.text =

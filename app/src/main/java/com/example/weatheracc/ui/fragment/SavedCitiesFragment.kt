@@ -15,8 +15,10 @@ import com.example.weatheracc.models.Units
 import com.example.weatheracc.viewModels.SavedCitiesViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.cities_saved_fragment.view.*
+import kotlinx.android.synthetic.main.item_saved_city.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class SavedCitiesFragment : DaggerFragment() {
 
@@ -56,6 +58,14 @@ class SavedCitiesFragment : DaggerFragment() {
             with(viewModel) {
                 weatherList.observe(viewLifecycleOwner, Observer {
                     citiesAdapter.submitList(it)
+
+                    if (it.firstOrNull()!!.main.temp.roundToInt() > 28 && currentUnits == Units.METRIC) {
+                        clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
+                    }
+                    if (it.firstOrNull()!!.main.temp > 82.4 && currentUnits == Units.IMPERIAL) {
+                        clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
+                    }
+
                 })
                 units.observe(viewLifecycleOwner, Observer {
                     tempUnitSwitcher.setText(getString(if (it == Units.METRIC) R.string.tempUnits_metric else R.string.tempUnits_imperial))

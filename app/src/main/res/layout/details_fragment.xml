@@ -13,12 +13,11 @@
         tools:context=".ui.fragment.DetailsFragment">
 
         <ImageView
-            android:id="@+id/ivClouds"
-            android:layout_width="wrap_content"
-            android:src="@drawable/clouds_rain"
+            android:id="@+id/ivStars"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:src="@drawable/stars"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/rvDailyForecast"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,28 +52,41 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/ivBackArrowDetails"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_back_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivDetailsSearch"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="25dp"
+            android:src="@drawable/ic_search_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/ivBackArrowDetails"
-                android:layout_width="43dp"
-                android:layout_height="43dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/ic_back_arrow" />
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@android:color/transparent" />
+                android:id="@+id/ivClouds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/clouds_rain"
+                android:visibility="gone" />
 
         </RelativeLayout>
 

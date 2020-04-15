@@ -115,7 +115,7 @@ class DetailsFragment : DaggerFragment() {
                     tvDetailsDate.text = ""
                     tvLastUpdated.text = "Last updated: " + sdf.format(date)
                     tvDetailsCityName.text = "${args.item.name}, $countryName"
-                    tvDetailsTemp.text = "${it.current.temp.roundToInt()}\u00B0"
+                    tvDetailsTemp.text = "${args.item.main.temp.roundToInt()}\u00B0"
                     tvDetailsDescription.text =
                         "${it.current.weather.firstOrNull()!!.description.substring(0, 1)
                             .toUpperCase() + args.item.weather.firstOrNull()!!.description.substring(
@@ -140,42 +140,71 @@ class DetailsFragment : DaggerFragment() {
                             ivGradient.visibility = View.VISIBLE
                         }
                         "Snow" -> {
-                            ivClouds.visibility = View.GONE
+                            ivDetailsSun.visibility = View.GONE
+                            ivClouds.visibility = View.VISIBLE
                             ivRain.visibility = View.GONE
+                            ivGradient.visibility = View.GONE
+                            ivRain.setImageDrawable(resources.getDrawable(R.drawable.snow))
                         }
                         "Thunderstorm" -> {
                             ivDetailsSun.visibility = View.GONE
                             ivClouds.visibility = View.VISIBLE
-                            ivRain.setImageDrawable(resources.getDrawable(R.drawable.thunder_and_rain))
                             ivRain.visibility = View.VISIBLE
+                            ivRain.setImageDrawable(resources.getDrawable(R.drawable.thunder_and_rain))
                         }
                         "Clouds" -> {
+                            ivDetailsSun.visibility = View.GONE
                             ivClouds.visibility = View.VISIBLE
                             ivRain.visibility = View.GONE
-                            ivGradient.visibility = View.GONE
+                            ivGradient.visibility = View.VISIBLE
+                            ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_mist))
+                            if (System.currentTimeMillis() > it.current.sunset && System.currentTimeMillis() < it.current.sunrise) {
+                                ivDetailsSun.visibility = View.GONE
+                                ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_sunset))
+                                ivStars.visibility = View.VISIBLE
+                            }
                         }
                     }
+
+                    if (tvDetailsDescription.text == "Few clouds") {
+                        ivDetailsSun.visibility = View.GONE
+                        ivClouds.visibility = View.VISIBLE
+                        ivRain.visibility = View.GONE
+                        ivGradient.visibility = View.GONE
+                        if (System.currentTimeMillis() > it.current.sunset && System.currentTimeMillis() < it.current.sunrise) {
+                            ivDetailsSun.visibility = View.GONE
+                            ivClouds.visibility = View.VISIBLE
+                            ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_sunset))
+                            ivStars.visibility = View.VISIBLE
+                        }
+                    }
+
                     if (System.currentTimeMillis() > it.current.sunset && System.currentTimeMillis() < it.current.sunrise) {
                         ivDetailsSun.visibility = View.GONE
                         ivGradient.visibility = View.VISIBLE
                         ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_sunset))
+                        ivStars.visibility = View.VISIBLE
                     }
 
                     if (it.current.temp.roundToInt() > 28 && currentUnits == Units.METRIC) {
                         ivGradient.visibility = View.VISIBLE
                         ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_hot))
+                        ivDetailsSun.setImageDrawable(resources.getDrawable(R.drawable.sun_orange))
                     }
 
                     if (it.current.temp > 82.4 && currentUnits == Units.IMPERIAL) {
                         ivGradient.visibility = View.VISIBLE
                         ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_hot))
+                        ivDetailsSun.setImageDrawable(resources.getDrawable(R.drawable.sun_orange))
                     }
                 })
             }
 
-            toolbar.inflateMenu(R.menu.menu_details)
             ivBackArrowDetails.setOnClickListener {
                 findNavController().popBackStack()
+            }
+            ivDetailsSearch.setOnClickListener {
+                findNavController().navigate(DetailsFragmentDirections.toSearchedCitiesFragment())
             }
 
             tvFooterAppDetails.text =
