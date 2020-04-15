@@ -1,8 +1,10 @@
 package com.example.weatheracc.di.modules
 
+import android.content.SharedPreferences
 import com.example.weatheracc.repository.Repository
 import com.example.weatheracc.repository.local.AppDatabase
 import com.example.weatheracc.repository.remote.OpenWeatherApi
+import com.example.weatheracc.repository.remote.OpenWeatherOneCallApi
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -14,6 +16,13 @@ class RepositoryModule {
     @Singleton
     fun provideRepository(
         openWeatherApi: OpenWeatherApi,
-        database: AppDatabase
-    ) = Repository(openWeatherApi, database.weatherForecastDao())
+        openWeatherOneCallApi: OpenWeatherOneCallApi,
+        database: AppDatabase,
+        sharedPreferences: SharedPreferences
+    ) = Repository(
+        openWeatherApi,
+        openWeatherOneCallApi,
+        database.weatherForecastDao(),
+        sharedPreferences
+    )
 }

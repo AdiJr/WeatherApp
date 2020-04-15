@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 
-@Entity(tableName = "weather_forecast")
+@Entity(tableName = "current_weather")
 @Parcelize
 data class WeatherForecast(
     @Embedded
@@ -55,6 +55,7 @@ data class Sys(
 
 data class Main(
     @SerializedName("temp") val temp: Double,
+    @SerializedName("feels_like") val feels_like: Double,
     @SerializedName("pressure") val pressure: Int,
     @SerializedName("humidity") val humidity: Int,
     @SerializedName("temp_min") val temp_min: Double,

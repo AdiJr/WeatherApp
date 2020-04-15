@@ -2,6 +2,7 @@ package com.example.weatheracc.repository.local
 
 import androidx.room.*
 import com.example.weatheracc.models.WeatherForecast
+import com.example.weatheracc.models.WeatherOneCallApi
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -19,9 +20,21 @@ interface WeatherForecastDao {
     @Delete
     suspend fun delete(weatherForecastDao: WeatherForecast): Int
 
-    @Query("SELECT * FROM weather_forecast")
+    @Query("SELECT * FROM current_weather")
     fun getAllFlow(): Flow<List<WeatherForecast>>
 
-    @Query("SELECT * FROM weather_forecast")
+    @Query("SELECT * FROM current_weather")
     suspend fun getAll(): List<WeatherForecast>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(weatherForecastDao: WeatherOneCallApi): Long
+
+    @Update
+    suspend fun update(weatherForecastDao: WeatherOneCallApi): Int
+
+    @Delete
+    suspend fun delete(weatherForecastDao: WeatherOneCallApi): Int
+
+    @Query("SELECT * FROM forecast_one_call_api WHERE lat LIKE :latitude")
+    suspend fun getForecastForCity(latitude: Double): WeatherOneCallApi
 }

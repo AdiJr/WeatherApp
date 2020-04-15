@@ -33,7 +33,7 @@ class SavedCitiesAdapter(
                 oldItem: WeatherForecast,
                 newItem: WeatherForecast
             ): Boolean =
-                oldItem.id == newItem.id
+                oldItem.coordinates.lat == newItem.coordinates.lat
 
             override fun areContentsTheSame(
                 oldItem: WeatherForecast,
@@ -46,26 +46,21 @@ class SavedCitiesAdapter(
     class CitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(city: WeatherForecast, listener: (WeatherForecast) -> Unit) {
             itemView.apply {
-                when (city.weather.firstOrNull()!!.description) {
-                    "clear sky" -> {
+                when (city.weather.firstOrNull()!!.main) {
+                    "Clear" -> {
                         setBackgroundResource(R.drawable.background_clear)
                         weatherIcon.setImageResource(R.drawable.icon_sun)
                     }
 
-                    "few clouds" -> {
+                    "Clouds" -> {
                         setBackgroundResource(R.drawable.background_cloudy)
                         weatherIcon.setImageResource(R.drawable.icon_clouds)
                     }
-                    "scattered clouds" -> {
-                        setBackgroundResource(R.drawable.background_cloudy)
-                        weatherIcon.setImageResource(R.drawable.icon_clouds)
-                    }
-                    "snow" -> weatherIcon.setImageResource(R.drawable.icon_snow)
-                    "rain" -> weatherIcon.setImageResource(R.drawable.icon_rain)
-                    "thunderstorm" -> weatherIcon.setImageResource(R.drawable.icon_thunder)
-                    "mist" -> weatherIcon.setImageResource(R.drawable.icon_mist)
-                    "broken clouds" -> setBackgroundResource(R.drawable.background_cloudy)
-                    "overcast clouds" -> setBackgroundResource(R.drawable.background_cloudy)
+                    "Snow" -> weatherIcon.setImageResource(R.drawable.icon_snow)
+                    "Rain" -> weatherIcon.setImageResource(R.drawable.icon_rain)
+                    "Thunderstorm" -> weatherIcon.setImageResource(R.drawable.icon_thunder)
+                    "Mist" -> weatherIcon.setImageResource(R.drawable.icon_mist)
+
                     else -> {
                         setBackgroundResource(R.drawable.background_clear)
                         weatherIcon.setImageResource(R.drawable.icon_sun)
@@ -75,10 +70,6 @@ class SavedCitiesAdapter(
                 if (city.main.temp > 25) setBackgroundResource(
                     R.drawable.hot_background
                 )
-
-                /*val updateTimeMillis = city.dt.toLong() * 1000
-                val simpleDateFormat = getDateInstance()
-                val updateDate = Date(updateTimeMillis)*/
 
                 tvCityName.text = city.name
                 tvCurrentTemp.text = "${city.main.temp.roundToInt()}\u00B0"

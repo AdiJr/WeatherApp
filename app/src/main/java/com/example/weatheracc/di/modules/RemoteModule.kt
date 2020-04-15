@@ -2,6 +2,7 @@ package com.example.weatheracc.di.modules
 
 import com.example.weatheracc.BuildConfig
 import com.example.weatheracc.repository.remote.OpenWeatherApi
+import com.example.weatheracc.repository.remote.OpenWeatherOneCallApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -22,6 +23,16 @@ class RemoteModule {
             .client(okHttpClient)
             .build()
             .create(OpenWeatherApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideOpenWeatherOneCallService(okHttpClient: OkHttpClient): OpenWeatherOneCallApi =
+        Retrofit.Builder()
+            .baseUrl("https://api.openweathermap.org/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+            .create(OpenWeatherOneCallApi::class.java)
 
     @Provides
     @Singleton
