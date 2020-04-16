@@ -67,4 +67,14 @@ class SavedCitiesViewModel @Inject constructor(
             repository.storeCity(toStore)
         }
     }
+
+    fun getCityOffline(latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+            try {
+                repository.getForecast(latitude, longitude)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

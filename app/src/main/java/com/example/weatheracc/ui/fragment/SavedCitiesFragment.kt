@@ -1,9 +1,12 @@
 package com.example.weatheracc.ui.fragment
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -34,6 +37,13 @@ class SavedCitiesFragment : DaggerFragment() {
         }
     }
 
+    private fun checkInternetConnection(context: Context): Boolean {
+        val conManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return (conManager.activeNetworkInfo != null && conManager.activeNetworkInfo.isAvailable
+                && conManager.activeNetworkInfo.isConnected)
+    }
+
     @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,10 +67,19 @@ class SavedCitiesFragment : DaggerFragment() {
 
             with(viewModel) {
                 weatherList.observe(viewLifecycleOwner, Observer {
-                    refreshData(
-                        it.firstOrNull()!!.coordinates.lat,
-                        it.firstOrNull()!!.coordinates.lon
-                    )
+                    if (checkInternetConnection(context)) {
+                        refreshData(
+                            it.firstOrNull()!!.coordinates.lat,
+                            it.firstOrNull()!!.coordinates.lon
+                        )
+                    } else {
+                        Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show()
+                        getCityOffline(
+                            it.firstOrNull()!!.coordinates.lat,
+                            it.firstOrNull()!!.coordinates.lon
+                        )
+                    }
+
                     citiesAdapter.submitList(it)
 
                     if (it.firstOrNull()!!.main.temp.roundToInt() > 28 && currentUnits == Units.METRIC) {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -93,7 +94,8 @@ class DetailsFragment : DaggerFragment() {
                 if (checkInternetConnection(context)) {
                     getCityOnline(args.item.coordinates.lat, args.item.coordinates.lon)
                 } else {
-                    getCity(args.item.coordinates.lat, args.item.coordinates.lon)
+                    Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show()
+                    getCityOffline(args.item.coordinates.lat, args.item.coordinates.lon)
                 }
 
                 dailyList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
@@ -158,11 +160,7 @@ class DetailsFragment : DaggerFragment() {
                     tvLastUpdated.text = "Last updated: " + sdf.format(date)
                     tvDetailsCityName.text = "${args.item.name}, $countryName"
                     tvDetailsTemp.text = "${args.item.main.temp.roundToInt()}\u00B0"
-                    tvDetailsDescription.text =
-                        "${it.current.weather.firstOrNull()!!.description.substring(0, 1)
-                            .toUpperCase() + args.item.weather.firstOrNull()!!.description.substring(
-                            1
-                        ).toLowerCase()}"
+                    tvDetailsDescription.text = args.item.weather.firstOrNull()!!.description
                     tvDetailsTempMaxMin.text =
                         "${args.item.main.temp_max.roundToInt()}\u00B0 / ${args.item.main.temp_min.roundToInt()}\u00B0"
                     currentAdapter.submitList(forecastDetails)
@@ -184,7 +182,7 @@ class DetailsFragment : DaggerFragment() {
                         "Snow" -> {
                             ivDetailsSun.visibility = View.GONE
                             ivClouds.visibility = View.VISIBLE
-                            ivRain.visibility = View.GONE
+                            ivRain.visibility = View.VISIBLE
                             ivGradient.visibility = View.GONE
                             ivRain.setImageDrawable(resources.getDrawable(R.drawable.snow))
                         }
@@ -195,30 +193,24 @@ class DetailsFragment : DaggerFragment() {
                             ivRain.setImageDrawable(resources.getDrawable(R.drawable.thunder_and_rain))
                         }
                         "Clouds" -> {
-                            ivDetailsSun.visibility = View.GONE
-                            ivClouds.visibility = View.VISIBLE
-                            ivRain.visibility = View.GONE
-                            ivGradient.visibility = View.VISIBLE
-                            ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_mist))
                             if (System.currentTimeMillis() > it.current.sunset && System.currentTimeMillis() < it.current.sunrise) {
                                 ivDetailsSun.visibility = View.GONE
+                                ivGradient.visibility = View.VISIBLE
                                 ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_sunset))
                                 ivStars.visibility = View.VISIBLE
+                                ivClouds.visibility = View.VISIBLE
+                            } else {
+                                ivClouds.visibility = View.VISIBLE
                             }
                         }
                     }
 
-                    if (tvDetailsDescription.text == "Few clouds") {
+                    if (it.current.weather.firstOrNull()!!.description == "overcast clouds") {
                         ivDetailsSun.visibility = View.GONE
                         ivClouds.visibility = View.VISIBLE
                         ivRain.visibility = View.GONE
-                        ivGradient.visibility = View.GONE
-                        if (System.currentTimeMillis() > it.current.sunset && System.currentTimeMillis() < it.current.sunrise) {
-                            ivDetailsSun.visibility = View.GONE
-                            ivClouds.visibility = View.VISIBLE
-                            ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_sunset))
-                            ivStars.visibility = View.VISIBLE
-                        }
+                        ivGradient.visibility = View.VISIBLE
+                        ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_mist))
                     }
 
                     if (System.currentTimeMillis() > it.current.sunset && System.currentTimeMillis() < it.current.sunrise) {

@@ -9,6 +9,7 @@ import com.example.weatheracc.repository.local.getUnits
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(
@@ -20,6 +21,7 @@ class SplashViewModel @Inject constructor(
     var isEmpty = true
 
     fun fetchOnline() {
+        Timber.d("fetchOnline called!")
         viewModelScope.launch {
             val animationDone = async {
                 delay(2_500)
@@ -45,6 +47,7 @@ class SplashViewModel @Inject constructor(
     }
 
     fun fetchOffline() {
+        Timber.d("fetchOnline called!")
         viewModelScope.launch {
             val animationDone = async {
                 delay(2_500)

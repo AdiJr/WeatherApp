@@ -23,7 +23,7 @@ class DetailsViewModel @Inject constructor(
 
     val currentUnits = sharedPreferences.getUnits()
 
-    fun getCity(latitude: Double, longitude: Double) {
+    fun getCityOffline(latitude: Double, longitude: Double) {
         viewModelScope.launch {
             try {
                 val result = repository.getForecast(latitude, longitude)
