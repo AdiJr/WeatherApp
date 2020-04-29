@@ -36,4 +36,5 @@ class SearchedCitiesViewModel @Inject constructor(private val repository: Reposi
             repository.storeCity(toStore)
         }
     }
+
 }

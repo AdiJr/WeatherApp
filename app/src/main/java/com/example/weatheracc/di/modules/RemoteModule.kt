@@ -16,23 +16,21 @@ class RemoteModule {
 
     @Provides
     @Singleton
-    fun provideOpenWeatherService(okHttpClient: OkHttpClient): OpenWeatherApi =
-        Retrofit.Builder()
-            .baseUrl("https://api.openweathermap.org/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-            .create(OpenWeatherApi::class.java)
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl("https://api.openweathermap.org/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
+        .build()
 
     @Provides
     @Singleton
-    fun provideOpenWeatherOneCallService(okHttpClient: OkHttpClient): OpenWeatherOneCallApi =
-        Retrofit.Builder()
-            .baseUrl("https://api.openweathermap.org/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-            .create(OpenWeatherOneCallApi::class.java)
+    fun provideOpenWeatherService(retrofit: Retrofit): OpenWeatherApi =
+        retrofit.create(OpenWeatherApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideOpenWeatherOneCallService(retrofit: Retrofit): OpenWeatherOneCallApi =
+        retrofit.create(OpenWeatherOneCallApi::class.java)
 
     @Provides
     @Singleton

@@ -23,7 +23,6 @@ import com.example.weatheracc.viewModels.DetailsViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.details_fragment.view.*
-import kotlinx.android.synthetic.main.item_daily_forecast.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -35,10 +34,8 @@ class DetailsFragment : DaggerFragment() {
     lateinit var factory: ViewModelProvider.Factory
     private val viewModel by viewModels<DetailsViewModel> { factory }
     private val args by navArgs<DetailsFragmentArgs>()
-    private val detailsAdapter by lazy {
-        DailyAdapter {
-            clContainer.setBackgroundResource(R.drawable.item_forecast_white)
-        }
+    private val dailyAdapter by lazy {
+        DailyAdapter()
     }
     private val hourlyAdapter by lazy {
         HourlyAdapter()
@@ -60,7 +57,7 @@ class DetailsFragment : DaggerFragment() {
     ): View? {
         return inflater.inflate(R.layout.details_fragment, container, false).apply {
 
-            rvDailyForecast.adapter = detailsAdapter
+            rvDailyForecast.adapter = dailyAdapter
             rvDetailsHourly.adapter = hourlyAdapter
             rvDetailsCurrent.adapter = currentAdapter
 
@@ -99,7 +96,8 @@ class DetailsFragment : DaggerFragment() {
                 }
 
                 dailyList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                    detailsAdapter.submitList(it)
+                    it.removeAt(0)
+                    dailyAdapter.submitList(it)
                 })
 
                 hourlyList.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
@@ -165,43 +163,43 @@ class DetailsFragment : DaggerFragment() {
                         "${args.item.main.temp_max.roundToInt()}\u00B0 / ${args.item.main.temp_min.roundToInt()}\u00B0"
                     currentAdapter.submitList(forecastDetails)
 
-                    when (it.current.weather.firstOrNull()!!.main) {
-                        "Rain" -> {
-                            ivDetailsSun.visibility = View.GONE
-                            ivClouds.visibility = View.VISIBLE
-                            ivRain.visibility = View.VISIBLE
-                            ivGradient.visibility = View.VISIBLE
-                            ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_rain))
-                        }
-                        "Mist" -> {
-                            ivDetailsSun.visibility = View.GONE
-                            ivClouds.visibility = View.VISIBLE
-                            ivRain.visibility = View.GONE
-                            ivGradient.visibility = View.VISIBLE
-                        }
-                        "Snow" -> {
-                            ivDetailsSun.visibility = View.GONE
-                            ivClouds.visibility = View.VISIBLE
-                            ivRain.visibility = View.VISIBLE
-                            ivGradient.visibility = View.GONE
-                            ivRain.setImageDrawable(resources.getDrawable(R.drawable.snow))
-                        }
-                        "Thunderstorm" -> {
-                            ivDetailsSun.visibility = View.GONE
-                            ivClouds.visibility = View.VISIBLE
-                            ivRain.visibility = View.VISIBLE
-                            ivRain.setImageDrawable(resources.getDrawable(R.drawable.thunder_and_rain))
-                        }
-                        "Clouds" -> {
-                            if (System.currentTimeMillis() > it.current.sunset && System.currentTimeMillis() < it.current.sunrise) {
+                    if (System.currentTimeMillis() > it.current.sunrise) {
+                        when (it.current.weather.firstOrNull()!!.main) {
+                            "Rain" -> {
                                 ivDetailsSun.visibility = View.GONE
-                                ivGradient.visibility = View.VISIBLE
-                                ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_sunset))
-                                ivStars.visibility = View.VISIBLE
                                 ivClouds.visibility = View.VISIBLE
-                            } else {
+                                ivRain.visibility = View.VISIBLE
+                            }
+                            "Mist" -> {
+                                ivDetailsSun.visibility = View.GONE
+                                ivClouds.visibility = View.VISIBLE
+                                ivRain.visibility = View.GONE
+                                ivGradient.visibility = View.VISIBLE
+                            }
+                            "Snow" -> {
+                                ivDetailsSun.visibility = View.GONE
+                                ivClouds.visibility = View.VISIBLE
+                                ivRain.visibility = View.VISIBLE
+                                ivGradient.visibility = View.GONE
+                                ivRain.setImageDrawable(resources.getDrawable(R.drawable.snow))
+                            }
+                            "Thunderstorm" -> {
+                                ivDetailsSun.visibility = View.GONE
+                                ivClouds.visibility = View.VISIBLE
+                                ivRain.visibility = View.VISIBLE
+                                ivRain.setImageDrawable(resources.getDrawable(R.drawable.thunder_and_rain))
+                            }
+                            "Clouds" -> {
+                                ivGradient.visibility = View.GONE
                                 ivClouds.visibility = View.VISIBLE
                             }
+                        }
+                    } else {
+                        if (System.currentTimeMillis() > it.current.sunset) {
+                            ivDetailsSun.visibility = View.GONE
+                            ivGradient.visibility = View.VISIBLE
+                            ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_sunset))
+                            ivStars.visibility = View.VISIBLE
                         }
                     }
 
@@ -211,13 +209,6 @@ class DetailsFragment : DaggerFragment() {
                         ivRain.visibility = View.GONE
                         ivGradient.visibility = View.VISIBLE
                         ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_mist))
-                    }
-
-                    if (System.currentTimeMillis() > it.current.sunset && System.currentTimeMillis() < it.current.sunrise) {
-                        ivDetailsSun.visibility = View.GONE
-                        ivGradient.visibility = View.VISIBLE
-                        ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_sunset))
-                        ivStars.visibility = View.VISIBLE
                     }
 
                     if (it.current.temp.roundToInt() > 28 && currentUnits == Units.METRIC) {

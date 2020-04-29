@@ -46,32 +46,38 @@ class SavedCitiesAdapter(
     class CitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(city: WeatherForecast, listener: (WeatherForecast) -> Unit) {
             itemView.apply {
-                when (city.weather.firstOrNull()!!.main) {
-                    "Clouds" -> {
-                        setBackgroundResource(R.drawable.background_cloudy)
-                        weatherIcon.setImageResource(R.drawable.icon_clouds)
-                    }
-                    "Snow" -> {
-                        setBackgroundResource(R.drawable.background_cloudy)
-                        weatherIcon.setImageResource(R.drawable.icon_snow)
-                    }
-                    "Rain" -> {
-                        setBackgroundResource(R.drawable.background_mist)
-                        weatherIcon.setImageResource(R.drawable.icon_rain)
-                    }
-                    "Thunderstorm" -> {
-                        setBackgroundResource(R.drawable.background_mist)
-                        weatherIcon.setImageResource(R.drawable.icon_thunder)
-                    }
-                    "Mist" -> {
-                        setBackgroundResource(R.drawable.background_mist)
-                        weatherIcon.setImageResource(R.drawable.icon_mist)
+                city.weather.firstOrNull()?.let {
+                    if (System.currentTimeMillis() > city.sys.sunrise) {
+                        when (it.main) {
+                            "Clouds" -> {
+                                setBackgroundResource(R.drawable.background_cloudy)
+                                weatherIcon.setImageResource(R.drawable.icon_clouds)
+                            }
+                            "Snow" -> {
+                                setBackgroundResource(R.drawable.background_cloudy)
+                                weatherIcon.setImageResource(R.drawable.icon_snow)
+                            }
+                            "Rain" -> {
+                                setBackgroundResource(R.drawable.background_cloudy)
+                                weatherIcon.setImageResource(R.drawable.icon_rain)
+                            }
+                            "Thunderstorm" -> {
+                                setBackgroundResource(R.drawable.background_mist)
+                                weatherIcon.setImageResource(R.drawable.icon_thunder)
+                            }
+                            "Mist" -> {
+                                setBackgroundResource(R.drawable.background_mist)
+                                weatherIcon.setImageResource(R.drawable.icon_mist)
+                            }
+                        }
+                    } else {
+                        if (System.currentTimeMillis() > city.sys.sunset) {
+                            setBackgroundResource(R.drawable.background_night)
+                            weatherIcon.visibility = View.GONE
+                        }
                     }
                 }
-                if (System.currentTimeMillis() > city.sys.sunset && System.currentTimeMillis() < city.sys.sunrise) {
-                    setBackgroundResource(R.drawable.background_night)
-                    weatherIcon.visibility = View.GONE
-                }
+
                 tvCityName.text = city.name
                 tvCurrentTemp.text = "${city.main.temp.roundToInt()}\u00B0"
                 tvTemperatureMinMax.text =

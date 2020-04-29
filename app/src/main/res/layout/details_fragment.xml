@@ -183,29 +183,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvDetailsTempMaxMin"
                 tools:text="Sunny" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="45dp"
-                android:layout_marginTop="8dp"
-                android:text="Today"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dividerUpdated" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvDailyForecast"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/dividerUpdated"
                 tools:listitem="@layout/item_daily_forecast" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -267,11 +256,11 @@
                 android:id="@+id/tvLastUpdated"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 android:textColor="@android:color/white"
+                app:layout_constraintBottom_toTopOf="@+id/dividerUpdated"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDetailsDescription"
                 tools:text="Last updated: 12:00" />
 
             <View
@@ -280,11 +269,11 @@
                 android:layout_height="0.5dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="5dp"
                 android:background="@android:color/white"
-                app:layout_constraintBottom_toTopOf="@+id/rvDailyForecast"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivlogo"
+                tools:layout_editor_absoluteY="404dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

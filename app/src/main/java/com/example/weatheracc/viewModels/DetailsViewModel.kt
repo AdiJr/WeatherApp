@@ -17,7 +17,7 @@ class DetailsViewModel @Inject constructor(
     sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
-    val dailyList = MutableLiveData<List<Daily>>()
+    val dailyList = MutableLiveData<MutableList<Daily>>()
     val hourlyList = MutableLiveData<List<Hourly>>()
     val allList = MutableLiveData<WeatherOneCallApi>()
 
@@ -27,7 +27,7 @@ class DetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = repository.getForecast(latitude, longitude)
-                dailyList.postValue(result.daily)
+                dailyList.postValue(result.daily.toMutableList())
                 hourlyList.postValue(result.hourly)
                 allList.postValue(result)
             } catch (e: Exception) {
@@ -40,7 +40,7 @@ class DetailsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = repository.fetchWeatherByCoordinates(latitude, longitude)
-                dailyList.postValue(result.daily)
+                dailyList.postValue(result.daily.toMutableList())
                 hourlyList.postValue(result.hourly)
                 allList.postValue(result)
             } catch (e: Exception) {

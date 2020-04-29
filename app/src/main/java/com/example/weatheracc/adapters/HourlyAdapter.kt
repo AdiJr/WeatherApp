@@ -55,17 +55,19 @@ class HourlyAdapter : ListAdapter<Hourly, HourlyAdapter.HourlyViewHolder>(DIFF_C
                     .toLowerCase()
                 tvHourlyTemp.text = hour.temp.roundToInt().toString() + "\u00B0"
 
-                when (hour.weather.firstOrNull()!!.main) {
-                    "Clear" -> {
-                        ivHourlyIcon.setImageResource(R.drawable.icon_sun)
+                hour.weather.firstOrNull()?.let {
+                    when (it.main) {
+                        "Clear" -> {
+                            ivHourlyIcon.setImageResource(R.drawable.icon_sun)
+                        }
+                        "Clouds" -> {
+                            ivHourlyIcon.setImageResource(R.drawable.icon_clouds)
+                        }
+                        "Snow" -> ivHourlyIcon.setImageResource(R.drawable.icon_snow)
+                        "Rain" -> ivHourlyIcon.setImageResource(R.drawable.icon_rain)
+                        "Thunderstorm" -> ivHourlyIcon.setImageResource(R.drawable.icon_thunder)
+                        "Mist" -> ivHourlyIcon.setImageResource(R.drawable.icon_mist)
                     }
-                    "Clouds" -> {
-                        ivHourlyIcon.setImageResource(R.drawable.icon_clouds)
-                    }
-                    "Snow" -> ivHourlyIcon.setImageResource(R.drawable.icon_snow)
-                    "Rain" -> ivHourlyIcon.setImageResource(R.drawable.icon_rain)
-                    "Thunderstorm" -> ivHourlyIcon.setImageResource(R.drawable.icon_thunder)
-                    "Mist" -> ivHourlyIcon.setImageResource(R.drawable.icon_mist)
                 }
             }
         }

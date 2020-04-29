@@ -13,9 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
-class DailyAdapter(
-    private val listener: (Daily) -> Unit
-) : ListAdapter<Daily, DailyAdapter.DetailsViewHolder>(DIFF_CALLBACK) {
+class DailyAdapter : ListAdapter<Daily, DailyAdapter.DetailsViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         DetailsViewHolder(
@@ -27,7 +25,7 @@ class DailyAdapter(
         )
 
     override fun onBindViewHolder(holder: DetailsViewHolder, position: Int) =
-        holder.bind(getItem(position), listener)
+        holder.bind(getItem(position))
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Daily>() {
@@ -46,7 +44,7 @@ class DailyAdapter(
     }
 
     class DetailsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(day: Daily, listener: (Daily) -> Unit) {
+        fun bind(day: Daily) {
             itemView.apply {
                 val sdf = SimpleDateFormat("EEEE", Locale.getDefault())
                 val date = day.dt.toLong() * 1000
@@ -55,19 +53,20 @@ class DailyAdapter(
                 tvDayTemp.text = day.temp.max.roundToInt()
                     .toString() + "\u00B0" + "/ " + day.temp.min.roundToInt().toString() + "\u00B0"
 
-                when (day.weather.firstOrNull()!!.main) {
-                    "Clear" -> {
-                        ivDayIcon.setImageResource(R.drawable.icon_sun)
+                day.weather.firstOrNull()?.let {
+                    when (it.main) {
+                        "Clear" -> {
+                            ivDayIcon.setImageResource(R.drawable.icon_sun)
+                        }
+                        "Clouds" -> {
+                            ivDayIcon.setImageResource(R.drawable.icon_clouds)
+                        }
+                        "Snow" -> ivDayIcon.setImageResource(R.drawable.icon_snow)
+                        "Rain" -> ivDayIcon.setImageResource(R.drawable.icon_rain)
+                        "Thunderstorm" -> ivDayIcon.setImageResource(R.drawable.icon_thunder)
+                        "Mist" -> ivDayIcon.setImageResource(R.drawable.icon_mist)
                     }
-                    "Clouds" -> {
-                        ivDayIcon.setImageResource(R.drawable.icon_clouds)
-                    }
-                    "Snow" -> ivDayIcon.setImageResource(R.drawable.icon_snow)
-                    "Rain" -> ivDayIcon.setImageResource(R.drawable.icon_rain)
-                    "Thunderstorm" -> ivDayIcon.setImageResource(R.drawable.icon_thunder)
-                    "Mist" -> ivDayIcon.setImageResource(R.drawable.icon_mist)
                 }
-                setOnClickListener { listener(day) }
             }
         }
     }
