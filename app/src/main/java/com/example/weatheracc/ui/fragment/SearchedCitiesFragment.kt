@@ -43,18 +43,6 @@ class SearchedCitiesFragment : DaggerFragment() {
     }
 
     private fun getCurrentCity() {
-        if (ContextCompat.checkSelfPermission(
-                context!!,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                activity!!,
-                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
-                1
-            )
-        }
-
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
         fusedLocationClient.lastLocation.addOnSuccessListener {
             if (it != null) {
@@ -82,7 +70,29 @@ class SearchedCitiesFragment : DaggerFragment() {
     ): View? {
         return inflater.inflate(R.layout.city_search_fragment, container, false).apply {
 
+            if (ContextCompat.checkSelfPermission(
+                    context!!,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    activity!!,
+                    arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                    1
+                )
+            }
+
             if (checkInternetConnection(context)) {
+                if (ContextCompat.checkSelfPermission(
+                        context!!,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    lrCurrentCity.visibility = View.GONE
+                    ivCurrentLocation.visibility = View.GONE
+                    Toast.makeText(context, "Please grant location permission", Toast.LENGTH_SHORT)
+                        .show()
+                }
                 lrCurrentCity.visibility = View.VISIBLE
                 ivCurrentLocation.visibility = View.VISIBLE
                 lrCurrentCity.setOnClickListener {
