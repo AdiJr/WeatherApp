@@ -1,7 +1,7 @@
 package com.example.weatheracc.di.modules
 
 import android.content.Context
-import com.example.weatheracc.WeatherApplication
+import com.example.weatheracc.utils.WeatherApplication
 import dagger.Module
 import dagger.Provides
 

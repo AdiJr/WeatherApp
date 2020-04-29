@@ -1,10 +1,8 @@
 package com.example.weatheracc.ui.fragment
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -23,6 +21,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatheracc.R
 import com.example.weatheracc.adapters.SearchedCitiesAdapter
+import com.example.weatheracc.utils.DetectConnection.checkInternetConnection
 import com.example.weatheracc.viewModels.SearchedCitiesViewModel
 import com.google.android.gms.location.LocationServices
 import dagger.android.support.DaggerFragment
@@ -41,13 +40,6 @@ class SearchedCitiesFragment : DaggerFragment() {
             viewModel.storeCity(it)
             findNavController().navigate(SearchedCitiesFragmentDirections.toSavedCities())
         }
-    }
-
-    fun checkInternetConnection(context: Context): Boolean {
-        val conManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return (conManager.activeNetworkInfo != null && conManager.activeNetworkInfo.isAvailable
-                && conManager.activeNetworkInfo.isConnected)
     }
 
     private fun getCurrentCity() {

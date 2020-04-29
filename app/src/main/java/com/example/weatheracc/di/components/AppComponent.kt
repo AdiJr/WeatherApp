@@ -1,7 +1,7 @@
 package com.example.weatheracc.di.components
 
-import com.example.weatheracc.WeatherApplication
 import com.example.weatheracc.di.modules.*
+import com.example.weatheracc.utils.WeatherApplication
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule

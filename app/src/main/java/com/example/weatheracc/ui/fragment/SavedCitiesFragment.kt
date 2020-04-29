@@ -1,7 +1,5 @@
 package com.example.weatheracc.ui.fragment
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.weatheracc.R
 import com.example.weatheracc.adapters.SavedCitiesAdapter
 import com.example.weatheracc.models.Units
+import com.example.weatheracc.utils.DetectConnection.checkInternetConnection
 import com.example.weatheracc.viewModels.SavedCitiesViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.cities_saved_fragment.view.*
@@ -35,13 +34,6 @@ class SavedCitiesFragment : DaggerFragment() {
         SavedCitiesAdapter {
             findNavController().navigate(SavedCitiesFragmentDirections.toDetailsFragment(it))
         }
-    }
-
-    private fun checkInternetConnection(context: Context): Boolean {
-        val conManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return (conManager.activeNetworkInfo != null && conManager.activeNetworkInfo.isAvailable
-                && conManager.activeNetworkInfo.isConnected)
     }
 
     @ExperimentalCoroutinesApi

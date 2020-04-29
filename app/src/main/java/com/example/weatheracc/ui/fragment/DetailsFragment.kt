@@ -1,7 +1,5 @@
 package com.example.weatheracc.ui.fragment
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +17,7 @@ import com.example.weatheracc.adapters.DailyAdapter
 import com.example.weatheracc.adapters.HourlyAdapter
 import com.example.weatheracc.models.ForecastDetails
 import com.example.weatheracc.models.Units
+import com.example.weatheracc.utils.DetectConnection.checkInternetConnection
 import com.example.weatheracc.viewModels.DetailsViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
@@ -42,13 +41,6 @@ class DetailsFragment : DaggerFragment() {
     }
     private val currentAdapter by lazy {
         CurrentConditionsAdapter()
-    }
-
-    private fun checkInternetConnection(context: Context): Boolean {
-        val conManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return (conManager.activeNetworkInfo != null && conManager.activeNetworkInfo.isAvailable
-                && conManager.activeNetworkInfo.isConnected)
     }
 
     override fun onCreateView(

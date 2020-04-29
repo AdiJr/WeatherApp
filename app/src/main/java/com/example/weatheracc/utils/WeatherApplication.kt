@@ -1,4 +1,4 @@
-package com.example.weatheracc
+package com.example.weatheracc.utils
 
 import com.example.weatheracc.di.components.DaggerAppComponent
 import dagger.android.AndroidInjector
