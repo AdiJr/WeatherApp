@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatheracc.R
+import com.example.weatheracc.adapters.RecentCitiesAdapter
 import com.example.weatheracc.adapters.SearchedCitiesAdapter
 import com.example.weatheracc.models.WeatherForecast
 import com.example.weatheracc.utils.DetectConnection.checkInternetConnection
@@ -26,7 +27,6 @@ import com.example.weatheracc.viewModels.SearchedCitiesViewModel
 import com.google.android.gms.location.LocationServices
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.city_search_fragment.view.*
-import kotlinx.android.synthetic.main.item_searched_city.view.*
 import java.util.*
 import javax.inject.Inject
 
@@ -38,6 +38,14 @@ class SearchedCitiesFragment : DaggerFragment() {
 
     private val searchedCitiesAdapter by lazy {
         SearchedCitiesAdapter {
+            viewModel.storeCity(it)
+            viewModel.hideKeyboard(context!!)
+            findNavController().navigate(SearchedCitiesFragmentDirections.toSavedCities())
+        }
+    }
+
+    private val recentCitiesAdapter by lazy {
+        RecentCitiesAdapter {
             viewModel.storeCity(it)
             viewModel.hideKeyboard(context!!)
             findNavController().navigate(SearchedCitiesFragmentDirections.toSavedCities())
@@ -93,7 +101,7 @@ class SearchedCitiesFragment : DaggerFragment() {
             if (!checkInternetConnection(context)) {
                 lrCurrentCity.visibility = View.GONE
                 ivCurrentLocation.visibility = View.GONE
-                rvSearchedCities.visibility = View.GONE
+                rvRecents.visibility = View.GONE
             }
 
             etSearch.addTextChangedListener {
@@ -101,6 +109,7 @@ class SearchedCitiesFragment : DaggerFragment() {
                     ivNoCon.visibility = View.GONE
                     tvNoCon.visibility = View.GONE
                     rvSearchedCities.visibility = View.VISIBLE
+                    rvRecents.visibility = View.GONE
                     viewModel.searchCity(it.toString())
                 } else {
                     ivNoCon.visibility = View.VISIBLE
@@ -111,12 +120,12 @@ class SearchedCitiesFragment : DaggerFragment() {
 
             ivBackArrow.setOnClickListener { findNavController().popBackStack() }
             rvSearchedCities.adapter = searchedCitiesAdapter
+            rvRecents.adapter = recentCitiesAdapter
 
             with(viewModel) {
                 cityList.observe(viewLifecycleOwner, Observer {
                     if (it.isNotEmpty()) {
                         searchedCitiesAdapter.submitList(it)
-                        ivRecent.visibility = View.GONE
                         handleVisibility(ivEmptyList, tvEmptyList, rvSearchedCities, false)
                     } else {
                         handleVisibility(ivEmptyList, tvEmptyList, rvSearchedCities, true)
@@ -125,11 +134,17 @@ class SearchedCitiesFragment : DaggerFragment() {
                 errorMessage.observe(viewLifecycleOwner, Observer {
                     handleVisibility(ivEmptyList, tvEmptyList, rvSearchedCities, true)
                 })
+
                 getRecents()
                 recents.observe(viewLifecycleOwner, Observer {
-                    val recentsList = mutableListOf<WeatherForecast>()
-                    recentsList.addAll(it)
-                    searchedCitiesAdapter.submitList(recentsList)
+                    if (it.isNotEmpty()) {
+                        rvRecents.visibility = View.VISIBLE
+                        val recentsList = mutableListOf<WeatherForecast>()
+                        recentsList.addAll(it)
+                        recentCitiesAdapter.submitList(recentsList)
+                    } else {
+                        rvRecents.visibility = View.GONE
+                    }
                 })
             }
         }
