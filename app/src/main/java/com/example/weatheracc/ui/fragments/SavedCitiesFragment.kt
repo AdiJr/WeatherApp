@@ -1,10 +1,9 @@
-package com.example.weatheracc.ui.fragment
+package com.example.weatheracc.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -65,7 +64,6 @@ class SavedCitiesFragment : DaggerFragment() {
                             it.firstOrNull()!!.coordinates.lon
                         )
                     } else {
-                        Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show()
                         getCityOffline(
                             it.firstOrNull()!!.coordinates.lat,
                             it.firstOrNull()!!.coordinates.lon

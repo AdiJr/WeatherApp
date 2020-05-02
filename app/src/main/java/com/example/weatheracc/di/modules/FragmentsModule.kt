@@ -1,6 +1,6 @@
 package com.example.weatheracc.di.modules
 
-import com.example.weatheracc.ui.fragment.*
+import com.example.weatheracc.ui.fragments.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -1,10 +1,9 @@
-package com.example.weatheracc.ui.fragment
+package com.example.weatheracc.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -19,7 +18,6 @@ import com.example.weatheracc.models.ForecastDetails
 import com.example.weatheracc.models.Units
 import com.example.weatheracc.utils.DetectConnection.checkInternetConnection
 import com.example.weatheracc.viewModels.DetailsViewModel
-import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.details_fragment.view.*
 import java.text.SimpleDateFormat
@@ -54,28 +52,12 @@ class DetailsFragment : DaggerFragment() {
             rvDetailsCurrent.adapter = currentAdapter
 
             with(viewModel) {
-
                 swipeRefresh.setOnRefreshListener {
                     if (checkInternetConnection(context)) {
                         refreshData(args.item.coordinates.lat, args.item.coordinates.lon)
-                        Snackbar.make(swipeRefresh, "Forecast updated", Snackbar.LENGTH_LONG)
-                            .apply {
-                                view.layoutParams =
-                                    (view.layoutParams as FrameLayout.LayoutParams).apply {
-                                        setMargins(12, 12, 12, 12)
-                                    }
-                                view.background = resources.getDrawable(R.drawable.snackbar)
-                            }.show()
                         swipeRefresh.isRefreshing = false
                     } else {
-                        Snackbar.make(swipeRefresh, "No internet connection", Snackbar.LENGTH_LONG)
-                            .apply {
-                                view.layoutParams =
-                                    (view.layoutParams as FrameLayout.LayoutParams).apply {
-                                        setMargins(12, 12, 12, 12)
-                                    }
-                                view.background = resources.getDrawable(R.drawable.snackbar)
-                            }.show()
+                        Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show()
                         swipeRefresh.isRefreshing = false
                     }
                 }
@@ -83,7 +65,6 @@ class DetailsFragment : DaggerFragment() {
                 if (checkInternetConnection(context)) {
                     getCityOnline(args.item.coordinates.lat, args.item.coordinates.lon)
                 } else {
-                    Toast.makeText(context, "No Internet connection", Toast.LENGTH_SHORT).show()
                     getCityOffline(args.item.coordinates.lat, args.item.coordinates.lon)
                 }
 

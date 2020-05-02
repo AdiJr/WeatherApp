@@ -1,5 +1,8 @@
 package com.example.weatheracc.viewModels
 
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +16,7 @@ class SearchedCitiesViewModel @Inject constructor(private val repository: Reposi
 
     val cityList = MutableLiveData<List<WeatherForecast>>()
     val errorMessage = MutableLiveData<String>()
+    val recents = MutableLiveData<List<WeatherForecast>>()
 
     fun searchCity(cityName: String) {
         viewModelScope.launch {
@@ -35,6 +39,19 @@ class SearchedCitiesViewModel @Inject constructor(private val repository: Reposi
             )
             repository.storeCity(toStore)
         }
+    }
+
+    fun getRecents() {
+        viewModelScope.launch {
+            recents.postValue(repository.getWeatherList())
+        }
+    }
+
+    //TODO: fix this method, cause keyboard still shows
+    fun hideKeyboard(context: Context) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val view = View(context)
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
 }

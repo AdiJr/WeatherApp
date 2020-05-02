@@ -5,27 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#4493ff"
-    tools:context=".ui.fragment.HomeFragment">
+    tools:context=".ui.fragments.HomeFragment">
 
-    <EditText
-        android:id="@+id/etSearch"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilSearch"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
-        android:autofillHints="auto"
-        android:background="@drawable/rounded_corners"
-        android:drawableStart="@drawable/ic_search_24dp"
-        android:drawablePadding="10dp"
+        android:focusable="true"
         android:hint="@string/enter_city_hint"
-        android:inputType="textCapWords"
-        android:lineSpacingExtra="8sp"
-        android:padding="10dp"
-        android:textColor="@android:color/white"
-        android:textCursorDrawable="@null"
+        android:textColorHint="@android:color/white"
+        app:endIconMode="clear_text"
+        app:endIconTint="@android:color/white"
+        app:hintTextColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivBackArrow"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:startIconDrawable="@drawable/ic_search_24dp"
+        app:startIconTint="@android:color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/rounded_corners"
+            android:inputType="text"
+            android:paddingBottom="5dp"
+            android:textColor="@android:color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/ivEmptyList"
@@ -36,7 +46,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSearch" />
+        app:layout_constraintTop_toBottomOf="@+id/lrCurrentCity" />
 
     <ImageView
         android:id="@+id/ivNoCon"
@@ -47,8 +57,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSearch" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tvNoCon" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearchedCities"
@@ -68,8 +77,10 @@
         android:layout_width="43dp"
         android:layout_height="43dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/ic_back_arrow"
+        app:layout_constraintEnd_toStartOf="@+id/tilSearch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,7 +108,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivNoCon" />
+        app:layout_constraintTop_toBottomOf="@+id/lrCurrentCity" />
 
     <LinearLayout
         android:id="@+id/lrCurrentCity"
@@ -110,7 +121,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSearch">
+        app:layout_constraintTop_toBottomOf="@+id/tilSearch">
 
         <TextView
             android:id="@+id/tvSearchedCityName"
@@ -142,6 +153,6 @@
         android:src="@drawable/current_location"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSearch" />
+        app:layout_constraintTop_toBottomOf="@+id/tilSearch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

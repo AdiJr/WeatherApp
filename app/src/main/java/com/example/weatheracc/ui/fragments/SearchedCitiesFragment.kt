@@ -1,11 +1,9 @@
-package com.example.weatheracc.ui.fragment
+package com.example.weatheracc.ui.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,11 +20,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatheracc.R
 import com.example.weatheracc.adapters.SearchedCitiesAdapter
+import com.example.weatheracc.models.WeatherForecast
 import com.example.weatheracc.utils.DetectConnection.checkInternetConnection
 import com.example.weatheracc.viewModels.SearchedCitiesViewModel
 import com.google.android.gms.location.LocationServices
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.city_search_fragment.view.*
+import kotlinx.android.synthetic.main.item_searched_city.view.*
 import java.util.*
 import javax.inject.Inject
 
@@ -38,6 +39,7 @@ class SearchedCitiesFragment : DaggerFragment() {
     private val searchedCitiesAdapter by lazy {
         SearchedCitiesAdapter {
             viewModel.storeCity(it)
+            viewModel.hideKeyboard(context!!)
             findNavController().navigate(SearchedCitiesFragmentDirections.toSavedCities())
         }
     }
@@ -80,59 +82,32 @@ class SearchedCitiesFragment : DaggerFragment() {
                     arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
                     1
                 )
-            }
-
-            if (checkInternetConnection(context)) {
-                if (ContextCompat.checkSelfPermission(
-                        context!!,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    lrCurrentCity.visibility = View.GONE
-                    ivCurrentLocation.visibility = View.GONE
-                    Toast.makeText(context, "Please grant location permission", Toast.LENGTH_SHORT)
-                        .show()
-                }
+            } else {
                 lrCurrentCity.visibility = View.VISIBLE
                 ivCurrentLocation.visibility = View.VISIBLE
                 lrCurrentCity.setOnClickListener {
                     getCurrentCity()
                 }
-            } else {
-                lrCurrentCity.visibility = View.GONE
-                ivCurrentLocation.visibility = View.GONE
             }
 
-            etSearch.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
-                    if (checkInternetConnection(context)) {
-                        ivNoCon.visibility = View.GONE
-                        tvNoCon.visibility = View.GONE
-                        rvSearchedCities.visibility = View.VISIBLE
-                        viewModel.searchCity(s.toString())
-                    } else {
-                        ivNoCon.visibility = View.VISIBLE
-                        tvNoCon.visibility = View.VISIBLE
-                        rvSearchedCities.visibility = View.GONE
-                    }
-                }
+            if (!checkInternetConnection(context)) {
+                lrCurrentCity.visibility = View.GONE
+                ivCurrentLocation.visibility = View.GONE
+                rvSearchedCities.visibility = View.GONE
+            }
 
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
+            etSearch.addTextChangedListener {
+                if (checkInternetConnection(context)) {
+                    ivNoCon.visibility = View.GONE
+                    tvNoCon.visibility = View.GONE
+                    rvSearchedCities.visibility = View.VISIBLE
+                    viewModel.searchCity(it.toString())
+                } else {
+                    ivNoCon.visibility = View.VISIBLE
+                    tvNoCon.visibility = View.VISIBLE
+                    rvSearchedCities.visibility = View.GONE
                 }
-
-                override fun onTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    before: Int,
-                    count: Int
-                ) {
-                }
-            })
+            }
 
             ivBackArrow.setOnClickListener { findNavController().popBackStack() }
             rvSearchedCities.adapter = searchedCitiesAdapter
@@ -141,6 +116,7 @@ class SearchedCitiesFragment : DaggerFragment() {
                 cityList.observe(viewLifecycleOwner, Observer {
                     if (it.isNotEmpty()) {
                         searchedCitiesAdapter.submitList(it)
+                        ivRecent.visibility = View.GONE
                         handleVisibility(ivEmptyList, tvEmptyList, rvSearchedCities, false)
                     } else {
                         handleVisibility(ivEmptyList, tvEmptyList, rvSearchedCities, true)
@@ -148,6 +124,12 @@ class SearchedCitiesFragment : DaggerFragment() {
                 })
                 errorMessage.observe(viewLifecycleOwner, Observer {
                     handleVisibility(ivEmptyList, tvEmptyList, rvSearchedCities, true)
+                })
+                getRecents()
+                recents.observe(viewLifecycleOwner, Observer {
+                    val recentsList = mutableListOf<WeatherForecast>()
+                    recentsList.addAll(it)
+                    searchedCitiesAdapter.submitList(recentsList)
                 })
             }
         }
