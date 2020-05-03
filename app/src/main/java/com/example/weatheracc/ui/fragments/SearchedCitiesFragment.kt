@@ -101,7 +101,8 @@ class SearchedCitiesFragment : DaggerFragment() {
             if (!checkInternetConnection(context)) {
                 lrCurrentCity.visibility = View.GONE
                 ivCurrentLocation.visibility = View.GONE
-                rvRecents.visibility = View.GONE
+                ivNoCon.visibility = View.VISIBLE
+                tvNoCon.visibility = View.VISIBLE
             }
 
             etSearch.addTextChangedListener {
@@ -137,7 +138,7 @@ class SearchedCitiesFragment : DaggerFragment() {
 
                 getRecents()
                 recents.observe(viewLifecycleOwner, Observer {
-                    if (it.isNotEmpty()) {
+                    if (it.isNotEmpty() && checkInternetConnection(context)) {
                         rvRecents.visibility = View.VISIBLE
                         val recentsList = mutableListOf<WeatherForecast>()
                         recentsList.addAll(it)

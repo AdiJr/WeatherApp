@@ -16,10 +16,8 @@ import com.example.weatheracc.utils.DetectConnection.checkInternetConnection
 import com.example.weatheracc.viewModels.SavedCitiesViewModel
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.cities_saved_fragment.view.*
-import kotlinx.android.synthetic.main.item_saved_city.view.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 class SavedCitiesFragment : DaggerFragment() {
 
@@ -51,6 +49,7 @@ class SavedCitiesFragment : DaggerFragment() {
             tempUnitSwitcher.setOnClickListener {
                 viewModel.updateUnits()
             }
+
             rvCity.adapter = citiesAdapter
             fabAddCity.setOnClickListener {
                 findNavController().navigate(SavedCitiesFragmentDirections.toSearchedCities())
@@ -69,19 +68,9 @@ class SavedCitiesFragment : DaggerFragment() {
                             it.firstOrNull()!!.coordinates.lon
                         )
                     }
-
                     citiesAdapter.submitList(it)
-
-                    if (it.firstOrNull()!!.main.temp.roundToInt() > 28 && currentUnits == Units.METRIC) {
-                        clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
-                        weatherIcon.setImageDrawable(resources.getDrawable(R.drawable.icon_orange_sun))
-                    }
-                    if (it.firstOrNull()!!.main.temp > 82.4 && currentUnits == Units.IMPERIAL) {
-                        clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
-                        weatherIcon.setImageDrawable(resources.getDrawable(R.drawable.icon_orange_sun))
-                    }
-
                 })
+
                 units.observe(viewLifecycleOwner, Observer {
                     tempUnitSwitcher.setText(getString(if (it == Units.METRIC) R.string.tempUnits_metric else R.string.tempUnits_imperial))
                 })

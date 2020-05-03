@@ -54,8 +54,9 @@ class DetailsFragment : DaggerFragment() {
             with(viewModel) {
                 swipeRefresh.setOnRefreshListener {
                     if (checkInternetConnection(context)) {
-                        refreshData(args.item.coordinates.lat, args.item.coordinates.lon)
+                        getCityOnline(args.item.coordinates.lat, args.item.coordinates.lon)
                         swipeRefresh.isRefreshing = false
+                        Toast.makeText(context, "Forecast updated", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show()
                         swipeRefresh.isRefreshing = false

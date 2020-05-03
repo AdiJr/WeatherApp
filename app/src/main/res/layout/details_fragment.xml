@@ -130,6 +130,8 @@
                 android:shadowColor="#80666666"
                 android:shadowDy="2"
                 android:shadowRadius="4"
+                android:gravity="center"
+                android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="32sp"
                 app:layout_constraintEnd_toEndOf="parent"

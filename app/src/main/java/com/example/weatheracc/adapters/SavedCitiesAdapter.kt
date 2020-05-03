@@ -78,10 +78,16 @@ class SavedCitiesAdapter(
                     }
                 }
 
+                if (city.main.temp.roundToInt() > 28 || city.main.temp > 82.4) {
+                    clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
+                    weatherIcon.setImageDrawable(resources.getDrawable(R.drawable.icon_orange_sun))
+                }
+
                 tvCityName.text = city.name
                 tvCurrentTemp.text = "${city.main.temp.roundToInt()}\u00B0"
                 tvTemperatureMinMax.text =
                     "${city.main.temp_max.roundToInt()}\u00B0 / ${city.main.temp_min.roundToInt()}\u00B0"
+
                 setOnClickListener { listener(city) }
             }
         }
