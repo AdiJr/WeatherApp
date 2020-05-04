@@ -51,36 +51,31 @@ class SavedCitiesAdapter(
                         when (it.main) {
                             "Clouds" -> {
                                 setBackgroundResource(R.drawable.background_cloudy)
-                                weatherIcon.setImageResource(R.drawable.icon_clouds)
+                                ivWeatherIcon.setImageResource(R.drawable.icon_clouds)
                             }
                             "Snow" -> {
                                 setBackgroundResource(R.drawable.background_cloudy)
-                                weatherIcon.setImageResource(R.drawable.icon_snow)
+                                ivWeatherIcon.setImageResource(R.drawable.icon_snow)
                             }
                             "Rain" -> {
                                 setBackgroundResource(R.drawable.background_cloudy)
-                                weatherIcon.setImageResource(R.drawable.icon_rain)
+                                ivWeatherIcon.setImageResource(R.drawable.icon_rain)
                             }
                             "Thunderstorm" -> {
                                 setBackgroundResource(R.drawable.background_mist)
-                                weatherIcon.setImageResource(R.drawable.icon_thunder)
+                                ivWeatherIcon.setImageResource(R.drawable.icon_thunder)
                             }
                             "Mist" -> {
                                 setBackgroundResource(R.drawable.background_mist)
-                                weatherIcon.setImageResource(R.drawable.icon_mist)
+                                ivWeatherIcon.setImageResource(R.drawable.icon_mist)
                             }
                         }
                     } else {
                         if (System.currentTimeMillis() > city.sys.sunset) {
                             setBackgroundResource(R.drawable.background_night)
-                            weatherIcon.visibility = View.GONE
+                            ivWeatherIcon.visibility = View.GONE
                         }
                     }
-                }
-
-                if (city.main.temp.roundToInt() > 28 || city.main.temp > 82.4) {
-                    clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
-                    weatherIcon.setImageDrawable(resources.getDrawable(R.drawable.icon_orange_sun))
                 }
 
                 tvCityName.text = city.name

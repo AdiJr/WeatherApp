@@ -185,7 +185,7 @@ class DetailsFragment : DaggerFragment() {
                         ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_mist))
                     }
 
-                    if (it.current.temp.roundToInt() > 28 && currentUnits == Units.METRIC) {
+                    if (it.current.temp > 28 && currentUnits == Units.METRIC) {
                         ivGradient.visibility = View.VISIBLE
                         ivGradient.setImageDrawable(resources.getDrawable(R.drawable.gradient_hot))
                         ivDetailsSun.setImageDrawable(resources.getDrawable(R.drawable.sun_orange))

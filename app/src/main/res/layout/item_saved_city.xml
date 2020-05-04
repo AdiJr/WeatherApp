@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clSavedCityItem"
     android:layout_width="173dp"
     android:layout_height="165dp"
-    android:id="@+id/clSavedCityItem"
     android:background="@drawable/background_clear">
 
     <TextView
@@ -12,14 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        tools:text="Warsaw"
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Warsaw" />
 
     <TextView
         android:id="@+id/tvCurrentTemp"
@@ -46,7 +46,7 @@
         tools:text="25\u00B0 / 16\u00B0" />
 
     <ImageView
-        android:id="@+id/weatherIcon"
+        android:id="@+id/ivWeatherIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -54,4 +54,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_sun" />
+
+    <ImageView
+        android:id="@+id/ivCurrentLocationIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/current_location" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
