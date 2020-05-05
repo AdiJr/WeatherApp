@@ -68,16 +68,20 @@ class SavedCitiesFragment : DaggerFragment() {
                 weatherList.observe(
                     viewLifecycleOwner,
                     Observer { weatherList: List<WeatherForecast> ->
-                        if (checkInternetConnection(context)) {
-                            refreshData(
-                                weatherList.firstOrNull()!!.coordinates.lat,
-                                weatherList.firstOrNull()!!.coordinates.lon
-                            )
+                        if (weatherList.isEmpty()) {
+                            findNavController().navigate(SavedCitiesFragmentDirections.toHomeFragment())
                         } else {
-                            getCityOffline(
-                                weatherList.firstOrNull()!!.coordinates.lat,
-                                weatherList.firstOrNull()!!.coordinates.lon
-                            )
+                            if (checkInternetConnection(context)) {
+                                refreshData(
+                                    weatherList.firstOrNull()!!.coordinates.lat,
+                                    weatherList.firstOrNull()!!.coordinates.lon
+                                )
+                            } else {
+                                getCityOffline(
+                                    weatherList.firstOrNull()!!.coordinates.lat,
+                                    weatherList.firstOrNull()!!.coordinates.lon
+                                )
+                            }
                         }
                         citiesAdapter.submitList(weatherList)
 
