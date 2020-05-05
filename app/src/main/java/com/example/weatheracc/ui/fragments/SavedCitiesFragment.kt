@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.weatheracc.R
 import com.example.weatheracc.adapters.SavedCitiesAdapter
 import com.example.weatheracc.models.Units
+import com.example.weatheracc.models.WeatherForecast
 import com.example.weatheracc.utils.DetectConnection.checkInternetConnection
 import com.example.weatheracc.viewModels.SavedCitiesViewModel
 import com.google.android.gms.location.LocationServices
@@ -38,6 +40,7 @@ class SavedCitiesFragment : DaggerFragment() {
         }
     }
 
+    @ExperimentalStdlibApi
     @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,69 +54,106 @@ class SavedCitiesFragment : DaggerFragment() {
                 }
             })
         return inflater.inflate(R.layout.cities_saved_fragment, container, false).apply {
+            rvCity.adapter = citiesAdapter
 
             tempUnitSwitcher.setOnClickListener {
                 viewModel.updateUnits()
             }
 
-            rvCity.adapter = citiesAdapter
             fabAddCity.setOnClickListener {
                 findNavController().navigate(SavedCitiesFragmentDirections.toSearchedCities())
             }
 
             with(viewModel) {
-                weatherList.observe(viewLifecycleOwner, Observer {
-                    if (checkInternetConnection(context)) {
-                        refreshData(
-                            it.firstOrNull()!!.coordinates.lat,
-                            it.firstOrNull()!!.coordinates.lon
-                        )
-                    } else {
-                        getCityOffline(
-                            it.firstOrNull()!!.coordinates.lat,
-                            it.firstOrNull()!!.coordinates.lon
-                        )
-                    }
-                    citiesAdapter.submitList(it)
+                weatherList.observe(
+                    viewLifecycleOwner,
+                    Observer { weatherList: List<WeatherForecast> ->
+                        if (checkInternetConnection(context)) {
+                            refreshData(
+                                weatherList.firstOrNull()!!.coordinates.lat,
+                                weatherList.firstOrNull()!!.coordinates.lon
+                            )
+                        } else {
+                            getCityOffline(
+                                weatherList.firstOrNull()!!.coordinates.lat,
+                                weatherList.firstOrNull()!!.coordinates.lon
+                            )
+                        }
+                        citiesAdapter.submitList(weatherList)
 
-                    val fusedLocationClient =
-                        LocationServices.getFusedLocationProviderClient(activity!!)
-                    fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                        if (location != null) {
-                            val locale =
-                                Locale.Builder().setLanguage(Locale.getDefault().language).build()
-                            val geocoder = Geocoder(context, locale)
-                            val geoCity =
-                                geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                        val fusedLocationClient =
+                            LocationServices.getFusedLocationProviderClient(activity!!)
+                        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                            if (location != null) {
+                                val locale =
+                                    Locale.Builder().setLanguage(Locale.getDefault().language)
+                                        .build()
+                                val geocoder = Geocoder(context, locale)
+                                val geoCity =
+                                    geocoder.getFromLocation(
+                                        location.latitude,
+                                        location.longitude,
+                                        1
+                                    )
 
-                            for (i in it.indices) {
-                                if (it[i].name == geoCity[0].locality) {
-                                    rvCity[i].ivCurrentLocationIcon.visibility = View.VISIBLE
+                                for (i in weatherList.indices) {
+                                    rvCity[i].setOnLongClickListener {
+                                        ivRemove.visibility = View.VISIBLE
+                                        rvCity[i].rbSelected.visibility = View.VISIBLE
+                                        rvCity[i].rbSelected.isChecked = true
+
+                                        rvCity[i].setOnClickListener {
+                                            rvCity[i].setOnClickListener {
+                                                rvCity[i].rbSelected.isChecked =
+                                                    !rvCity[i].rbSelected.isChecked
+                                            }
+                                        }
+
+                                        ivRemove.setOnClickListener {
+                                            if (rvCity[i].rbSelected.isChecked) {
+                                                val list = weatherList.toMutableList()
+                                                list.removeAt(i)
+                                                viewModel.removeItem(weatherList[i])
+                                                citiesAdapter.submitList(list.toList())
+                                                Toast.makeText(
+                                                    context,
+                                                    "Item removed",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                ivRemove.visibility = View.GONE
+                                            }
+                                        }
+                                        return@setOnLongClickListener true
+                                    }
+
+                                    if (weatherList[i].name == geoCity[0].locality) {
+                                        rvCity[i].ivCurrentLocationIcon.visibility = View.VISIBLE
+                                    }
+
+                                    units.observe(viewLifecycleOwner, Observer { units ->
+                                        tempUnitSwitcher.setText(getString(if (units == Units.METRIC) R.string.tempUnits_metric else R.string.tempUnits_imperial))
+
+                                        if (weatherList[i].main.temp > 28 && units == Units.METRIC) {
+                                            rvCity[i].clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
+                                            rvCity[i].ivWeatherIcon.setImageDrawable(
+                                                resources.getDrawable(
+                                                    R.drawable.icon_orange_sun
+                                                )
+                                            )
+                                        }
+                                        if (weatherList[i].main.temp > 82.4 && units == Units.IMPERIAL) {
+                                            rvCity[i].clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
+                                            rvCity[i].ivWeatherIcon.setImageDrawable(
+                                                resources.getDrawable(
+                                                    R.drawable.icon_orange_sun
+                                                )
+                                            )
+                                        }
+                                    })
                                 }
-                                units.observe(viewLifecycleOwner, Observer { units ->
-                                    tempUnitSwitcher.setText(getString(if (units == Units.METRIC) R.string.tempUnits_metric else R.string.tempUnits_imperial))
-
-                                    if (it[i].main.temp > 28 && units == Units.METRIC) {
-                                        rvCity[i].clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
-                                        rvCity[i].ivWeatherIcon.setImageDrawable(
-                                            resources.getDrawable(
-                                                R.drawable.icon_orange_sun
-                                            )
-                                        )
-                                    }
-                                    if (it[i].main.temp > 82.4 && units == Units.IMPERIAL) {
-                                        rvCity[i].clSavedCityItem.setBackgroundResource(R.drawable.hot_background)
-                                        rvCity[i].ivWeatherIcon.setImageDrawable(
-                                            resources.getDrawable(
-                                                R.drawable.icon_orange_sun
-                                            )
-                                        )
-                                    }
-                                })
                             }
                         }
-                    }
-                })
+                    })
             }
         }
     }

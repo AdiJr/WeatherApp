@@ -76,4 +76,10 @@ class SavedCitiesViewModel @Inject constructor(
             }
         }
     }
+
+    fun removeItem(weatherForecast: WeatherForecast) {
+        viewModelScope.launch {
+            repository.removeCity(weatherForecast)
+        }
+    }
 }

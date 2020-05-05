@@ -64,4 +64,7 @@ class Repository(
 
     suspend fun getForecast(latitude: Double, longitude: Double) =
         weatherForecastDao.getForecastForCity(latitude, longitude)
+
+    suspend fun removeCity(weatherForecast: WeatherForecast) =
+        weatherForecastDao.delete(weatherForecast)
 }

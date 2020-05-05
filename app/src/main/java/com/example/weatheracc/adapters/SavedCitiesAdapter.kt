@@ -44,7 +44,10 @@ class SavedCitiesAdapter(
     }
 
     class CitiesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(city: WeatherForecast, listener: (WeatherForecast) -> Unit) {
+        fun bind(
+            city: WeatherForecast,
+            listener: (WeatherForecast) -> Unit
+        ) {
             itemView.apply {
                 city.weather.firstOrNull()?.let {
                     if (System.currentTimeMillis() > city.sys.sunrise) {
