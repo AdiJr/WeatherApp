@@ -102,10 +102,9 @@ class SavedCitiesFragment : DaggerFragment() {
 
                                 for (i in weatherList.indices) {
                                     rvCity[i].setOnLongClickListener {
-                                        ivRemove.visibility = View.VISIBLE
+                                        fabAddCity.setImageDrawable(resources.getDrawable(R.drawable.ic_send_to_trash))
                                         rvCity[i].rbSelected.visibility = View.VISIBLE
                                         rvCity[i].rbSelected.isChecked = true
-
                                         rvCity[i].setOnClickListener {
                                             rvCity[i].setOnClickListener {
                                                 rvCity[i].rbSelected.isChecked =
@@ -113,18 +112,27 @@ class SavedCitiesFragment : DaggerFragment() {
                                             }
                                         }
 
-                                        ivRemove.setOnClickListener {
-                                            if (rvCity[i].rbSelected.isChecked) {
+                                        fabAddCity.setOnClickListener {
+                                            for (iRem in weatherList.indices) {
                                                 val list = weatherList.toMutableList()
-                                                list.removeAt(i)
-                                                viewModel.removeItem(weatherList[i])
-                                                citiesAdapter.submitList(list.toList())
-                                                Toast.makeText(
-                                                    context,
-                                                    "Item removed",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                                ivRemove.visibility = View.GONE
+                                                if (rvCity[iRem].rbSelected.isChecked) {
+                                                    list.removeAt(iRem)
+                                                    viewModel.removeItem(weatherList[iRem])
+                                                    citiesAdapter.submitList(list.toList())
+                                                    Toast.makeText(
+                                                        context,
+                                                        "Item removed",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                    fabAddCity.apply {
+                                                        setImageDrawable(resources.getDrawable(R.drawable.ic_add))
+                                                        setOnClickListener {
+                                                            findNavController().navigate(
+                                                                SavedCitiesFragmentDirections.toSearchedCities()
+                                                            )
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                         return@setOnLongClickListener true

@@ -1,7 +1,6 @@
 package com.example.weatheracc.adapters
 
 import android.location.Geocoder
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatheracc.R
 import com.example.weatheracc.models.WeatherForecast
-import kotlinx.android.synthetic.main.item_searched_city.view.*
+import kotlinx.android.synthetic.main.item_recent_city.view.*
 import java.util.*
 
 class RecentCitiesAdapter(
@@ -52,10 +51,11 @@ class RecentCitiesAdapter(
                 val geocoder = Geocoder(context, locale)
                 val geoCity =
                     geocoder.getFromLocation(city.coordinates.lat, city.coordinates.lon, 1)
-                val searchText =
-                    "<b>${city.name}</b>, ${geoCity[0].adminArea}, ${geoCity[0].countryName}"
 
-                tvSearchedCityName.text = Html.fromHtml(searchText)
+                tvRecentCityName.text = city.name
+                tvRecentCityArea.text = geoCity[0].adminArea
+                tvRecentCityCountry.text = geoCity[0].countryName
+
                 setOnClickListener { listener(city) }
             }
         }

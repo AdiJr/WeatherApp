@@ -111,6 +111,7 @@ class SearchedCitiesFragment : DaggerFragment() {
                     tvNoCon.visibility = View.GONE
                     rvSearchedCities.visibility = View.VISIBLE
                     rvRecents.visibility = View.GONE
+                    tvRecents.visibility = View.GONE
                     viewModel.searchCity(it.toString())
                 } else {
                     ivNoCon.visibility = View.VISIBLE
@@ -140,11 +141,13 @@ class SearchedCitiesFragment : DaggerFragment() {
                 recents.observe(viewLifecycleOwner, Observer {
                     if (it.isNotEmpty() && checkInternetConnection(context)) {
                         rvRecents.visibility = View.VISIBLE
+                        tvRecents.visibility = View.VISIBLE
                         val recentsList = mutableListOf<WeatherForecast>()
                         recentsList.addAll(it)
                         recentCitiesAdapter.submitList(recentsList)
                     } else {
                         rvRecents.visibility = View.GONE
+                        tvRecents.visibility = View.GONE
                     }
                 })
             }
